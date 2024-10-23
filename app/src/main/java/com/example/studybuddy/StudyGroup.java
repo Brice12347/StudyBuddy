@@ -1,15 +1,17 @@
 package com.example.studybuddy;
 
+import java.util.ArrayList;
+import java.util.List;
 
-public class StudyGroup(){
+public class StudyGroup {
     private String groupID;
     private String groupName;
     private String description;
-    private List<Member> Members;
+    private List<User> members;  // Use User to represent group members
     private List<StudySession> studySessions;
-    private GroupChat groupchat;
+    private GroupChat groupChat;
 
-    public StudyGroup(String groupID, String groupName, String description){
+    public StudyGroup(String groupID, String groupName, String description) {
         this.groupID = groupID;
         this.groupName = groupName;
         this.members = new ArrayList<>();
@@ -18,31 +20,39 @@ public class StudyGroup(){
         this.groupChat = new GroupChat(groupID);
     }
 
-    public void addMember(User user){
-        if(user != null){
-            Member newMember = new Member(user);
-            members.add(newMember);
+    // Add a new member to the group
+    public void addMember(User user) {
+        if (user != null) {
+            members.add(user);  // Add User directly to the members list
         }
     }
 
-    public void removeMember(String userID) {
-        members.removeIf(member -> member.getUser().getUserID().equals(userID));
+    // Remove a member by the User object
+    public void removeMember(User user) {
+        if (user != null) {
+            members.remove(user);  // Remove the User object directly
+        }
     }
 
+
+    // Schedule a study session
     public void scheduleStudySession(StudySession session) {
         if (session != null) {
             studySessions.add(session);
         }
     }
 
-    public List<Member> viewMembers() {
+    // View the list of members in the group
+    public List<User> viewMembers() {
         return new ArrayList<>(members);  // Return a copy of the members list
     }
 
+    // Access the group chat
     public GroupChat accessGroupChat() {
         return groupChat;
     }
 
+    // Getters for groupID, groupName, and description
     public String getGroupID() {
         return groupID;
     }
@@ -54,5 +64,4 @@ public class StudyGroup(){
     public String getDescription() {
         return description;
     }
-
 }
