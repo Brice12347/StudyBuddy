@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-<!--    do not forget context-->
+<!--    please do not forget context-->
 
     <TextView
+
         android:id="@+id/resgistrationFormTitle"
         android:layout_width="192dp"
         android:layout_height="26dp"
