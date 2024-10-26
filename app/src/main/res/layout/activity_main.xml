@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
+
 <!--    please do not forget context-->
 
     <TextView
@@ -22,7 +23,7 @@
         app:layout_constraintVertical_bias="0.097" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/regristrationUsernameInput"
+        android:id="@+id/registrationUsernameInput"
         android:layout_width="281dp"
         android:layout_height="46dp"
         app:layout_constraintBottom_toBottomOf="parent"
