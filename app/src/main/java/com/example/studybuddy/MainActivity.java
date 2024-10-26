@@ -26,6 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.function.ToDoubleBiFunction;
+
 public class MainActivity extends AppCompatActivity {
 
     TextInputLayout signupUsername, signupConfirmPassword, signupPassword;
@@ -57,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
 
                 String username = signupUsername.getEditText().getText().toString();
                 String password = signupPassword.getEditText().getText().toString();
+                String confirmPassword = signupConfirmPassword.getEditText().getText().toString();
+
+                // Check if passwords match
+                if (!password.equals(confirmPassword)) {
+                    Toast.makeText(MainActivity.this, "Passwords do not match. Please try again.", Toast.LENGTH_SHORT).show();
+                    return; // Exit the method if passwords don't match
+                }
 
                 reference.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -69,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
                             HelperClass helperClass = new HelperClass(username, password);
                             reference.child(username).setValue(helperClass);
                             Toast.makeText(MainActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
+//                            TODO: change back after testing
+//                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
                             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
