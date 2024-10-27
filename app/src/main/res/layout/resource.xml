@@ -31,18 +31,6 @@
 
     <!-- Lecture Notes Label -->
 
-    <!-- View Icon -->
-
-    <TextView
-        android:id="@+id/lectureNotesLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="60dp"
-        android:text="Lecture Notes"
-        android:textSize="16sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/searchBar" />
 
     <ImageButton
         android:id="@+id/viewIcon"
