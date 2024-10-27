@@ -77,9 +77,4 @@ public class User {
     private String password;
     private ArrayList<String> profileInfo;
 
-
-
-
-
-
 }
