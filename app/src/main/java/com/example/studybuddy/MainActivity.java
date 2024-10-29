@@ -9,15 +9,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -26,11 +20,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.function.ToDoubleBiFunction;
-
 public class MainActivity extends AppCompatActivity {
 
-    TextInputLayout signupUsername, signupConfirmPassword, signupPassword;
+    TextInputLayout signupUsername, signupConfirmPassword, signupPassword, signupEmail;
     Button signupButton,loginButton;
     FirebaseDatabase database;
     DatabaseReference reference;
@@ -49,17 +41,19 @@ public class MainActivity extends AppCompatActivity {
         signupConfirmPassword = findViewById(R.id.registrationConfirmPassInput);
         signupButton = findViewById(R.id.registerButton);
         loginButton =findViewById(R.id.goToSignInPage);
+        signupEmail = findViewById(R.id.registrationEmailInput);
 //
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                database = FirebaseDatabase.getInstance();
+                database = FirebaseDatabase.getInstance("https://studybuddy-eeec8-default-rtdb.firebaseio.com/");
                 reference = database.getReference("users");
 
 
                 String username = signupUsername.getEditText().getText().toString();
                 String password = signupPassword.getEditText().getText().toString();
                 String confirmPassword = signupConfirmPassword.getEditText().getText().toString();
+                String email = signupEmail.getEditText().getText().toString();
 
                 // Check if passwords match
                 if (!password.equals(confirmPassword)) {
@@ -75,12 +69,12 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Username already exists. Please try a different one.", Toast.LENGTH_SHORT).show();
                         } else {
                             // Username is available, proceed with signup
-                            HelperClass helperClass = new HelperClass(username, password);
+                            User helperClass = new User(username, password, email);
                             reference.child(username).setValue(helperClass);
                             Toast.makeText(MainActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
 //                            TODO: change back after testing
-//                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
-                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+//                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                     }

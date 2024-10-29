@@ -39,7 +39,7 @@ public class ScheduleActivity extends AppCompatActivity {
         location = findViewById(R.id.eventLocation);
         description = findViewById(R.id.eventDescription);
         addEvent = findViewById(R.id.addEventBtn);
-
+//      calendarId = database.getReference("Courses/Course1/Groups/Group1/id");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {
                     Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
@@ -57,7 +57,7 @@ public class ScheduleActivity extends AppCompatActivity {
                     intent.putExtra(CalendarContract.Events.EVENT_LOCATION, location.getText().toString());
                     intent.putExtra(CalendarContract.Events.DESCRIPTION, description.getText().toString());
                     intent.putExtra(CalendarContract.Events.ALL_DAY, true);
-
+//                  intent.putExtra(CalendarContract.Events.CALENDAR_ID, calendarId);
 //                    guests
 //                    intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com, test2@yahoo.com, test3@yahoo.com");
 
