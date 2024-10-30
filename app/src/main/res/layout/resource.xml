@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context=".ResourcesActivity">
 
-    <!-- Resources Button -->
-    <Button
-        android:id="@+id/resourcesButton"
+    <!-- Title -->
+    <TextView
+        android:id="@+id/resourcesTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Resources"
-        android:textSize="18sp"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,36 +28,140 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Search"
-        android:padding="10dp"
-        app:layout_constraintTop_toBottomOf="@+id/resourcesButton"
+        android:padding="12dp"
+        android:background="@android:drawable/editbox_background_normal"
+        app:layout_constraintTop_toBottomOf="@+id/resourcesTitle"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp" />
 
-    <!-- Lecture Notes Label -->
-
-
-    <ImageButton
-        android:id="@+id/viewIcon"
+    <!-- Lecture Notes Section -->
+    <TextView
+        android:id="@+id/lectureNotesLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_view" <!-- Replace with your icon -->
-    android:contentDescription="View"
-    app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
-    app:layout_constraintStart_toStartOf="parent"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp" />
+        android:text="Lecture Notes"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/searchBar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
 
-    <!-- Upload Icon -->
-    <ImageButton
-        android:id="@+id/uploadIcon"
+    <!-- Divider -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- View Button for Lecture Notes -->
+    <Button
+        android:id="@+id/viewLectureNotesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_upload" <!-- Replace with your icon -->
-    android:contentDescription="Upload"
-    app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="16dp" />
+        android:text="View"
+        app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp" />
+
+    <!-- Upload Button for Lecture Notes -->
+    <Button
+        android:id="@+id/uploadLectureNotesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Practice Exams Section -->
+    <TextView
+        android:id="@+id/practiceExamsLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Practice Exams"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/viewLectureNotesButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/practiceExamsLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- View Button for Practice Exams -->
+    <Button
+        android:id="@+id/viewPracticeExamsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View"
+        app:layout_constraintTop_toBottomOf="@id/practiceExamsLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp" />
+
+    <!-- Upload Button for Practice Exams -->
+    <Button
+        android:id="@+id/uploadPracticeExamsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        app:layout_constraintTop_toBottomOf="@id/practiceExamsLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+    <!-- Project Help Section -->
+    <TextView
+        android:id="@+id/projectHelpLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Project Help"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/viewPracticeExamsButton"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="24dp" />
+
+    <!-- Divider -->
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        app:layout_constraintTop_toBottomOf="@id/projectHelpLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
+
+    <!-- View Button for Project Help -->
+    <Button
+        android:id="@+id/viewProjectHelpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="View"
+        app:layout_constraintTop_toBottomOf="@id/projectHelpLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="80dp" />
+
+    <!-- Upload Button for Project Help -->
+    <Button
+        android:id="@+id/uploadProjectHelpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Upload"
+        app:layout_constraintTop_toBottomOf="@id/projectHelpLabel"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
