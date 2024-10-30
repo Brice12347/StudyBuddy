@@ -26,9 +26,7 @@
 
         <activity
             android:name=".ScheduleActivity"
-            android:exported="false"
-
-            />
+            android:exported="false" />
         <activity
             android:name=".LandingPageActivity"
             android:exported="false" />
@@ -36,8 +34,15 @@
             android:name=".LoginActivity"
             android:exported="false" />
         <activity
+            android:name=".ResourcesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
