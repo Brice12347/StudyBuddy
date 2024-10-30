@@ -3,6 +3,8 @@ package com.example.studybuddy;
 import static java.security.AccessController.getContext;
 import android.Manifest;
 import android.content.pm.PackageManager;
+
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.content.ActivityNotFoundException;
@@ -23,6 +25,12 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 public class ScheduleActivity extends AppCompatActivity {
 
     private static final int CALENDAR_PERMISSION_CODE = 100;
@@ -30,6 +38,9 @@ public class ScheduleActivity extends AppCompatActivity {
     EditText location;
     EditText description;
     Button addEvent;
+    private DatabaseReference databaseReference;
+    private String calendarId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +50,27 @@ public class ScheduleActivity extends AppCompatActivity {
         location = findViewById(R.id.eventLocation);
         description = findViewById(R.id.eventDescription);
         addEvent = findViewById(R.id.addEventBtn);
-//      calendarId = database.getReference("Courses/Course1/Groups/Group1/id");
+//        TODO:
+//        I need the user's information for this to work.
+//        what we can do is send the information using intents.
+//        databaseReference = FirebaseDatabase.getInstance().getReference("Courses/Course1/Groups/Group1/calendarId");
+        // Retrieve the calendar ID for the specific group
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()) {
+//                    calendarId = dataSnapshot.getValue(String.class);
+//                } else {
+//                    Toast.makeText(ScheduleActivity.this, "Calendar ID not found", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//                Toast.makeText(ScheduleActivity.this, "Failed to load calendar ID", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {
                     Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR

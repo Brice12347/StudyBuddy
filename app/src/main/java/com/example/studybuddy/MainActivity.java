@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.widget.PopupMenu;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,29 +23,42 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     TextInputLayout signupUsername, signupConfirmPassword, signupPassword, signupEmail;
-    Button signupButton,loginButton;
+    Button signupButton, loginButton;
+    FloatingActionButton courseButton;
     FirebaseDatabase database;
     DatabaseReference reference;
+    ArrayList<Course> availableCourses = new ArrayList<>();
+    ArrayList<Course> selectedCourses;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-//
-//
+
+
+        selectedCourses = new ArrayList<>();
+//        Toast.makeText(MainActivity.this, selectedCourses.size(), Toast.LENGTH_SHORT).show();
+        availableCourses.add(new Course("CSCI 103", "Introduction to Computer Science", "OOP in C++"));
+        availableCourses.add(new Course("CSCI 170", "Discrete Math", "Literal Hell"));
+        availableCourses.add(new Course("CSCI 104", "Data Structures and Algorithms", "The most important class ever"));
+
 
 //
         signupUsername = findViewById(R.id.registrationUsernameInput);
         signupPassword = findViewById(R.id.registrationPassInput);
         signupConfirmPassword = findViewById(R.id.registrationConfirmPassInput);
         signupButton = findViewById(R.id.registerButton);
-        loginButton =findViewById(R.id.goToSignInPage);
+        loginButton = findViewById(R.id.goToSignInPage);
         signupEmail = findViewById(R.id.registrationEmailInput);
-//
+        courseButton = findViewById(R.id.addCourseButton);
+
+
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -71,7 +87,20 @@ public class MainActivity extends AppCompatActivity {
                             // Username is available, proceed with signup
                             User helperClass = new User(username, password, email);
                             reference.child(username).setValue(helperClass);
+
+                            if(!selectedCourses.isEmpty()){
+                                for (Course course : selectedCourses) {
+                                    course.addToEnrolledStudents(helperClass);
+                                }
+
+                            }
+
+
+
                             Toast.makeText(MainActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
+
+
+
 //                            TODO: change back after testing
                             Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
 //                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -93,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
@@ -101,8 +130,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        courseButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+//
+                showCourseMenu(view);
+            }
+        });
+
+
+    }
+
+    private void showCourseMenu(View view) {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+
+        // Add courses to the popup menu
+        for (int i = 0; i < availableCourses.size(); i++) {
+            popupMenu.getMenu().add(0, i, 0, availableCourses.get(i).getCourseName());
+        }
+
+        // Handle course selection and enrollment
+        popupMenu.setOnMenuItemClickListener(menuItem -> {
+            int courseIndex = menuItem.getItemId();
+            Course selectedCourse = availableCourses.get(courseIndex);
 
 
 
+            if (!selectedCourses.contains(selectedCourse)) {
+                selectedCourses.add(selectedCourse); // Add the selected course to the list if not already selected
+                Toast.makeText(this, selectedCourse.getCourseName() + " added to selection.", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, selectedCourse.getCourseName() + " is already selected.", Toast.LENGTH_SHORT).show();
+            }
+
+            return true;
+        });
+
+        popupMenu.show();
     }
 }
