@@ -22,7 +22,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginUsernameInput"
         android:layout_width="281dp"
-        android:layout_height="46dp"
+        android:layout_height="58dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.798"
@@ -63,7 +63,7 @@
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/loginPassInput"
         android:layout_width="281dp"
-        android:layout_height="46dp"
+        android:layout_height="58dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.798"

@@ -30,27 +30,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.578">
-        <TextView
-            android:id="@+id/pretendClass1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Class 1" />
-        <TextView
-            android:id="@+id/pretendClass2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Class 2" />
-        <TextView
-            android:id="@+id/pretendClass3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:text="Class 3" />
+<!--        <TextView-->
+<!--            android:id="@+id/pretendClass1"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Class 1" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/pretendClass2"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Class 2" />-->
+<!--        <TextView-->
+<!--            android:id="@+id/pretendClass3"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:gravity="center"-->
+<!--            android:text="Class 3" />-->
     </LinearLayout>
     <Button
         android:id="@+id/homeScreenButton"

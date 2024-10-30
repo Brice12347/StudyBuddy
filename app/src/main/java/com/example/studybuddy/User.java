@@ -1,7 +1,13 @@
 package com.example.studybuddy;
 
+import java.util.ArrayList;
+
 public class User {
     String name, email, username, password;
+    ArrayList<Course> userCourses = new ArrayList<>();
+    public void addToUserCourses(Course c){
+        this.userCourses.add(c);
+    }
     public String getName() {
         return name;
     }

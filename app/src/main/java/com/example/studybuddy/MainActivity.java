@@ -86,13 +86,19 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // Username is available, proceed with signup
                             User helperClass = new User(username, password, email);
-                            reference.child(username).setValue(helperClass);
+                            DatabaseReference userRef = reference.child(username);
+                            userRef.setValue(helperClass);
 
-                            if(!selectedCourses.isEmpty()){
+                            // Store selected courses under the user's "courses" node
+                            if (!selectedCourses.isEmpty()) {
                                 for (Course course : selectedCourses) {
-                                    course.addToEnrolledStudents(helperClass);
-                                }
+                                    String courseId = userRef.child("courses").push().getKey(); // Generate a unique ID for each course
+                                    DatabaseReference courseRef = userRef.child("courses").child(courseId);
 
+                                    courseRef.child("courseName").setValue(course.getCourseName());
+//                                    courseRef.child("courseDescription").setValue(course.getCourseDescription());
+                                    // Add more course details as needed
+                                }
                             }
 
 
@@ -102,8 +108,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 //                            TODO: change back after testing
-                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
-//                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
                     }
