@@ -37,11 +37,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_view" <!-- Replace with your icon -->
-    android:contentDescription="View"
-    app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
-    app:layout_constraintStart_toStartOf="parent"
-    android:layout_marginTop="8dp"
-    android:layout_marginStart="16dp" />
+        android:contentDescription="View"
+        app:layout_constraintTop_toBottomOf="@id/lectureNotesLabel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp" />
 
     <!-- Upload Icon -->
     <ImageButton
