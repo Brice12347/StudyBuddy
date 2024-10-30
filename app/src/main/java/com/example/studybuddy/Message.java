@@ -1,15 +1,14 @@
 package com.example.studybuddy;
-import java.util.Date;
 
 public class Message {
-    public User sender;
-    public String content;
+    public String sender;
+    public long content;
     private long timestamp;
     private String messageID;
     // Correct: declared the timestamp field
 
     // Constructor
-    public Message(String messageID, User sender, String content){
+    public Message(String messageID, String sender, long content){
         this.sender = sender;
         this.content = content;
         this.messageID = messageID;
@@ -17,12 +16,12 @@ public class Message {
     }
 
     // Get the sender
-    public User getSender() {
+    public String getSender() {
         return sender;
     }
 
     // Get the content of the message
-    public String getContent() {
+    public long getContent() {
         return content;
     }
 

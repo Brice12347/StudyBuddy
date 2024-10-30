@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudyGroup {
-    private String groupID;
+    public String groupID;
     private String groupName;
     private String description;
     private List<User> members;  // Use User to represent group members
     private List<StudySession> studySessions;
     private GroupChat groupChat;
+
+    //Needed for Firebase
+    public StudyGroup() {}
 
     public StudyGroup(String groupID, String groupName, String description) {
         this.groupID = groupID;
