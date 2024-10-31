@@ -17,8 +17,8 @@ public class GroupChat {
     public void sendMessage(User sender, String content) {
         if (sender != null && content != null && !content.isEmpty()) {
             String messageID = generateMessageID();  // Generate messageID here
-            Message newMessage = new Message(messageID, sender, content);
-            messages.add(newMessage);
+            //Message newMessage = new Message(messageID, sender, content);
+            //messages.add(newMessage);
         }
     }
 
