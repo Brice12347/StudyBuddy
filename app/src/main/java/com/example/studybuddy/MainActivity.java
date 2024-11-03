@@ -102,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //                            TODO: change back after testing
-                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+                            Intent intent = new Intent(MainActivity.this, GroupChatActivity.class);
 //                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
