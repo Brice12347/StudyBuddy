@@ -1,9 +1,13 @@
 package com.example.studybuddy;
 
+import java.util.ArrayList;
+
 public class User {
     String name, email, username, password;
-    private String userID; // Add this field for the unique identifier
-
+    ArrayList<Course> userCourses = new ArrayList<>();
+    public void addToUserCourses(Course c){
+        this.userCourses.add(c);
+    }
     public String getName() {
         return name;
     }
@@ -28,9 +32,6 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    //added getter and setter for userID for FireBase Authentication
-    public String getUserID() {return userID;}
-    public void setUserID(String userID) {this.userID = userID;}
     public User(String username, String password, String email) {
         this.username = username;
         this.password = password;

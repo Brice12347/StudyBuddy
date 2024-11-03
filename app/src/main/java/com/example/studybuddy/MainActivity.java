@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
 
         selectedCourses = new ArrayList<>();
 //        Toast.makeText(MainActivity.this, selectedCourses.size(), Toast.LENGTH_SHORT).show();
-        availableCourses.add(new Course("CSCI 103", "Introduction to Computer Science", "OOP in C++"));
-        availableCourses.add(new Course("CSCI 170", "Discrete Math", "Literal Hell"));
-        availableCourses.add(new Course("CSCI 104", "Data Structures and Algorithms", "The most important class ever"));
+        availableCourses.add(new Course("CSCI103", "Introduction to Computer Science", "OOP in C++"));
+        availableCourses.add(new Course("CSCI170", "Discrete Math", "Literal Hell"));
+        availableCourses.add(new Course("CSCI104", "Data Structures and Algorithms", "The most important class ever"));
 
 
 //
@@ -86,13 +86,20 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             // Username is available, proceed with signup
                             User helperClass = new User(username, password, email);
-                            reference.child(username).setValue(helperClass);
+                            DatabaseReference userRef = reference.child(username);
+                            userRef.setValue(helperClass);
 
-                            if(!selectedCourses.isEmpty()){
+                            // Store selected courses under the user's "courses" node
+                            if (!selectedCourses.isEmpty()) {
                                 for (Course course : selectedCourses) {
-                                    course.addToEnrolledStudents(helperClass);
-                                }
+                                    String courseId = userRef.child("courses").push().getKey(); // Generate a unique ID for each course
+                                    DatabaseReference courseRef = userRef.child("courses").child(courseId);
 
+                                    courseRef.child("courseName").setValue(course.getCourseName());
+                                    courseRef.child("courseDescription").setValue(course.getDescription());
+                                    courseRef.child("courseCode").setValue(course.getCourseId());
+                                    // Add more course details as needed
+                                }
                             }
 
 
@@ -102,8 +109,9 @@ public class MainActivity extends AppCompatActivity {
 
 
 //                            TODO: change back after testing
-                            Intent intent = new Intent(MainActivity.this, GroupChatActivity.class);
+                            Intent intent = new Intent(MainActivity.this, GroupCreateActivity.class);
 //                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+
                             startActivity(intent);
                         }
                     }
