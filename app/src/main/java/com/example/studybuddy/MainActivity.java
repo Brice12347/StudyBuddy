@@ -109,8 +109,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 //                            TODO: change back after testing
-                            Intent intent = new Intent(MainActivity.this, MessagesActivity.class);
-//                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//                            Intent intent = new Intent(MainActivity.this, MessagesActivity.class);
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 
                             startActivity(intent);
                         }

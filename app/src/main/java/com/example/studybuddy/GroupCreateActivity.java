@@ -65,6 +65,7 @@ public class GroupCreateActivity extends AppCompatActivity {
                     return;
                 }
                 DatabaseReference groupRef = databaseReference.child("Courses").child(selectedCourse.getCourseId()).child("Groups").child(groupName);
+//                THIS IS HOW YOU WOULD GET A RANDOM ID
                 String groupId = databaseReference.child("Courses").child(selectedCourse.getCourseId()).child("Groups").push().getKey();
                 Group newGroup = new Group(groupId, groupName);
 
