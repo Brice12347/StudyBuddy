@@ -23,6 +23,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.ktx.Firebase;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -34,12 +38,15 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
     ArrayList<Course> availableCourses = new ArrayList<>();
     ArrayList<Course> selectedCourses;
+    private  FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        //auth = Firebase.auth;
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
 
         selectedCourses = new ArrayList<>();
@@ -102,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 //                            TODO: change back after testing
-                            Intent intent = new Intent(MainActivity.this, ScheduleActivity.class);
+                            Intent intent = new Intent(MainActivity.this, ResourcesActivity.class);
 //                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             startActivity(intent);
                         }
@@ -113,7 +120,19 @@ public class MainActivity extends AppCompatActivity {
                         // Handle possible errors with Firebase operation
                         Toast.makeText(MainActivity.this, "Failed to check username. Please try again.", Toast.LENGTH_SHORT).show();
                     }
+
+                    public void onStart(@NonNull DatabaseError error) {
+                        FirebaseUser user = mAuth.getCurrentUser();
+                        if (user != null) {
+                            // do your stuff
+                        } else {
+                            //signInAnonymously();
+                        }
+                    }
                 });
+
+
+
 //                HelperClass helperClass = new HelperClass(username, password);
 //                reference.child(username).setValue(helperClass);
 //                Toast.makeText(MainActivity.this, "You have signup successfully!", Toast.LENGTH_SHORT).show();
@@ -125,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
@@ -141,6 +161,17 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+   /* protected void onStart(Bundle savedInstanceState) {
+        FirebaseUser user = mAuth.getCurrentUser();
+        if (user != null) {
+            // do your stuff
+        } else {
+            signInAnonymously();
+        }
+
+    }*/
 
     private void showCourseMenu(View view) {
         PopupMenu popupMenu = new PopupMenu(this, view);

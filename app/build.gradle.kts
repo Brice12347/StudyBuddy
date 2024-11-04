@@ -43,6 +43,10 @@ dependencies {
 //    implementation(platform("com.google.firebase:firebase-database:21.0.0"))
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-database")
+    implementation ("com.google.firebase:firebase-storage:21.0.1")
+    implementation ("com.google.firebase:firebase-database:19.5.0")
+    implementation ("com.google.firebase:firebase-auth:19.3.1")
+    implementation ("com.google.firebase:firebase-auth:23.1.0")
 //    implementation("com.google.firebase:firebase-analytics")
 
     implementation(libs.appcompat)
