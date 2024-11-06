@@ -1,118 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context=".SchedulingPageActivity">
+    android:layout_height="match_parent">
 
-    <!-- Title: Add Study Session -->
     <TextView
-        android:id="@+id/addStudySessionTitle"
+        android:id="@+id/schedulingTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Study Session"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:gravity="center"
+        android:layout_gravity="center"
+        android:text="Scheduling Form"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="16dp" />
+        app:layout_constraintVertical_bias="0.133" />
 
-    <!-- Title Box -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/titleCardView"
-        android:layout_width="0dp"
+
+    <EditText
+        android:id="@+id/eventTitle"
+        android:layout_width="match_parent"
+        android:minHeight="48dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/addStudySessionTitle"
-        app:layout_constraintStart_toStartOf="parent"
+        android:ems="10"
+        android:hint="Title"
+        android:inputType="textEmailAddress"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_default="spread"
-        android:layout_marginTop="16dp">
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.29" />
 
-        <EditText
-            android:id="@+id/studyTitleInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Title"
-            android:padding="12dp" />
-    </androidx.cardview.widget.CardView>
-
-    <!-- Date Box -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/dateCardView"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/eventLocation"
+        android:layout_width="match_parent"
+        android:minHeight="48dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/titleCardView"
+        android:ems="10"
+        android:hint="Location"
+        android:inputType="textEmailSubject"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_default="spread"
-        android:layout_marginTop="16dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.412" />
 
-        <EditText
-            android:id="@+id/studyDateInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Date"
-            android:padding="12dp" />
-    </androidx.cardview.widget.CardView>
-
-    <!-- Start Time Box -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/startTimeCardView"
-        android:layout_width="0dp"
+    <EditText
+        android:id="@+id/eventDescription"
+        android:layout_width="match_parent"
+        android:minHeight="48dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/dateCardView"
+        android:ems="10"
+        android:hint="Description"
+        android:inputType="text"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_default="spread"
-        android:layout_marginTop="16dp">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.543" />
 
-        <EditText
-            android:id="@+id/studyStartTimeInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Start Time"
-            android:padding="12dp" />
-    </androidx.cardview.widget.CardView>
-
-    <!-- End Time Box -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/endTimeCardView"
-        android:layout_width="0dp"
+    <Button
+        android:id="@+id/addEventBtn"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/startTimeCardView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:backgroundTint="@color/lavender"
+        android:text="Add Event"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_default="spread"
-        android:layout_marginTop="16dp">
-
-        <EditText
-            android:id="@+id/studyEndTimeInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="End Time"
-            android:padding="12dp" />
-    </androidx.cardview.widget.CardView>
-
-    <!-- Location Box -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/locationCardView"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/endTimeCardView"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintWidth_default="spread"
-        android:layout_marginTop="16dp">
-
-        <EditText
-            android:id="@+id/studyLocationInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Location"
-            android:padding="12dp" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.701" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

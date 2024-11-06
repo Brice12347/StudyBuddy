@@ -12,6 +12,12 @@ public class Course {
         this.enrolledStudents = enrolledStudents;
     }
 
+    public Course(String courseId, String courseName, String description) {
+        this.courseId = courseId;
+        this.courseName = courseName;
+        this.description = description;
+    }
+
     public Course() {
         this.courseId = "";
         this.courseName = "";
@@ -51,10 +57,20 @@ public class Course {
         this.enrolledStudents = enrolledStudents;
     }
 
+    public void printStudents(){
+        for (User u: this.enrolledStudents){
+            System.out.println(u.username);
+        }
+    }
+
+    public void addToEnrolledStudents(User student){
+        this.enrolledStudents.add(student);
+    }
+
     private String courseId;
     private String courseName;
     private String description;
-    private ArrayList<User> enrolledStudents;
+    private ArrayList<User> enrolledStudents = new ArrayList<>();
 
     public void enrollStudent(User student){
 
