@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -43,10 +44,35 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        EdgeToEdge.enable(this);
         //auth = Firebase.auth;
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        //FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+
+        auth = FirebaseAuth.getInstance(); // Initialize Firebase Auth
+
+        if (auth.getCurrentUser() == null) { // Check if not signed in
+            auth.signInAnonymously() // Perform anonymous sign-in
+                    .addOnCompleteListener(this, task -> {
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
+
+        FirebaseAuth.getInstance().signInAnonymously()
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(MainActivity.this, "Signed in anonymously", Toast.LENGTH_SHORT).show();
+                        Log.i("FirebaseAuth", "Anonymous sign-in successful");
+                    } else {
+                        Toast.makeText(MainActivity.this, "Anonymous sign-in failed", Toast.LENGTH_SHORT).show();
+                        Log.i("FirebaseAuth", "Anonymous sign-in FAILED");
+                    }
+                });
+
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 
         selectedCourses = new ArrayList<>();
@@ -131,14 +157,14 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Failed to check username. Please try again.", Toast.LENGTH_SHORT).show();
                     }
 
-                    public void onStart(@NonNull DatabaseError error) {
+                    /*public void onStart(@NonNull DatabaseError error) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         if (user != null) {
                             // do your stuff
                         } else {
                             //signInAnonymously();
                         }
-                    }
+                    }*/
                 });
 
 
@@ -173,7 +199,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-   /* protected void onStart(Bundle savedInstanceState) {
+    /*protected void onStart(Bundle savedInstanceState) {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {
             // do your stuff

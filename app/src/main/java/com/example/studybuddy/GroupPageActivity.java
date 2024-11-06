@@ -30,14 +30,14 @@ public class GroupPageActivity extends AppCompatActivity {
         TextView group3 = findViewById(R.id.pretendGroup3);
 
         // Call openGroupChat with the respective group name on click
-        group1.setOnClickListener(view -> openGroupChat("Group 1"));
-        group2.setOnClickListener(view -> openGroupChat("Group 2"));
-        group3.setOnClickListener(view -> openGroupChat("Group 3"));
+        group1.setOnClickListener(view -> openGroupPage("Group 1"));
+        group2.setOnClickListener(view -> openGroupPage("Group 2"));
+        group3.setOnClickListener(view -> openGroupPage("Group 3"));
     }
 
     // Method to start MessagesActivity with the selected group name
-    private void openGroupChat(String groupName) {
-        Intent intent = new Intent(GroupPageActivity.this, MessagesActivity.class);
+    private void openGroupPage(String groupName) {
+        Intent intent = new Intent(GroupPageActivity.this, StudyGroupActivity.class);
         intent.putExtra("groupName", groupName);
         startActivity(intent);
     }

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Header section -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#D3D3D3"
+        android:padding="16dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/studyGroupTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member List"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <!-- Scrollable member list section -->
+    <ScrollView
+        android:id="@+id/memberListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#F0F0F0"
+        android:layout_marginBottom="12dp"
+        android:contentDescription="Scrollable member list">
+
+        <!-- Inner LinearLayout to hold member items -->
+        <LinearLayout
+            android:id="@+id/innerMemberListLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Add member items here -->
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Button section at the bottom with equal-sized buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <Button
+            android:id="@+id/chatBoxButton"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:contentDescription="Chat Box"
+            android:text="ChatBox"
+            android:textColor="#000000"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/groupCalendarButton"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:text="Calendar"
+            android:textColor="#000000"
+            android:textSize="7sp" />
+
+        <Button
+            android:id="@+id/addNewSessionsButton"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:text="Add Session"
+            android:textColor="#000000"
+            android:textSize="8sp" />
+
+        <Button
+            android:id="@+id/resourcesButton"
+            android:layout_width="10dp"
+            android:layout_height="80dp"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:text="Reso-urces"
+            android:textColor="#000000"
+            android:textSize="10sp" />
+    </LinearLayout>
+
+</LinearLayout>
