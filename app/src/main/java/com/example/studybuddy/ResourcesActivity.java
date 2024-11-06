@@ -115,29 +115,19 @@ public class ResourcesActivity extends AppCompatActivity {
 
             Log.i("Print","Line 108 FilePath IS: " + filePath);
 
-            /*ref.putFile(filePath)
+            ref.putFile(filePath)
                     .addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
                         String uploadId = databaseReference.push().getKey();
                         Log.i("Print","Upload ID IS: " + uploadId);
                         databaseReference.child(groupId).child(category).child(uploadId).setValue(uri.toString());
                         Toast.makeText(ResourcesActivity.this, "File Uploaded!", Toast.LENGTH_SHORT).show();
-                    }))1
+                    }))
                     .addOnFailureListener(e -> Toast.makeText(ResourcesActivity.this, "Upload Failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
-                    */
 
 
 
 
-            //ref = storageReference.child("studyGroups/studyGroup123/LectureNotes/test_file");
-            ref = storageReference.child("test_file");
-            Log.i("FirebaseStorage", "Full path before upload: " + ref.getPath());
-            ref.putFile(filePath)
-                    .addOnSuccessListener(taskSnapshot -> {
-                        Toast.makeText(ResourcesActivity.this, "File uploaded successfully!", Toast.LENGTH_SHORT).show();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(ResourcesActivity.this, "Upload Failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
-                    });
+
             Log.i("Print","Database REF IS: " + databaseReference);
             Log.i("Print","Database REF IS: " + databaseReference);
 
