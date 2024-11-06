@@ -33,8 +33,10 @@ public class HomeActivity extends AppCompatActivity {
         myGroupsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(HomeActivity.this, GroupPageActivity.class); // NEEDS TO BE CHANGED ONCE Group FRONTEND IS MADE
-//                startActivity(intent);
+                Intent intent = new Intent(HomeActivity.this, GroupPageActivity.class); // NEEDS TO BE CHANGED ONCE Group FRONTEND IS MADE
+                intent.putExtra("username", username);
+                startActivity(intent);
+
             }
         });
 
