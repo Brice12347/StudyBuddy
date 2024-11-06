@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class GroupPageActivity extends AppCompatActivity {
 
-    private DatabaseReference userGroupsRef;
+    private DatabaseReference coursesRef;
     private LinearLayout groupsLayout;
 
     @Override
@@ -36,51 +36,58 @@ public class GroupPageActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
 
-        userGroupsRef = FirebaseDatabase.getInstance("https://studybuddy-eeec8-default-rtdb.firebaseio.com/")
-                .getReference("users").child(username).child("groups");
+        coursesRef = FirebaseDatabase.getInstance("https://studybuddy-eeec8-default-rtdb.firebaseio.com/")
+                .getReference("Courses");
 
-        loadUserGroups();
+        loadUserGroups(username);
 
         findViewById(R.id.button).setOnClickListener(v -> {
             Toast.makeText(this, "Add Group functionality not implemented yet", Toast.LENGTH_SHORT).show();
         });
     }
 
-    private void loadUserGroups() {
-        userGroupsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    private void loadUserGroups(String username) {
+        coursesRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot groupSnapshot : snapshot.getChildren()) {
-                    String groupId = groupSnapshot.getKey();
-                    String groupName = groupSnapshot.child("groupName").getValue(String.class);
+                for (DataSnapshot courseSnapshot : snapshot.getChildren()) {
+                    DataSnapshot groupsSnapshot = courseSnapshot.child("Groups");
 
-                    Log.i("GroupPageActivity loadUserGroups", "inside onCreate of GroupPageActivity");
+                    for (DataSnapshot groupSnapshot : groupsSnapshot.getChildren()) {
+                        String groupId = groupSnapshot.getKey();
+                        String groupName = groupSnapshot.child("groupName").getValue(String.class);
 
-                    if (groupName != null) {
-                        LinearLayout groupLayout = new LinearLayout(GroupPageActivity.this);
-                        groupLayout.setLayoutParams(new LinearLayout.LayoutParams(
-                                ViewGroup.LayoutParams.MATCH_PARENT,
-                                ViewGroup.LayoutParams.WRAP_CONTENT));
-                        groupLayout.setOrientation(LinearLayout.HORIZONTAL);
-                        groupLayout.setGravity(android.view.Gravity.CENTER);
+                        if (groupSnapshot.child("members").hasChild(username)) {
+                            // User is a member of this group
+                            Log.i("GroupPageActivity loadUserGroups", "User is a member of group: " + groupName);
 
-                        TextView groupTextView = new TextView(GroupPageActivity.this);
-                        groupTextView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-                        groupTextView.setText(groupName);
-                        groupTextView.setGravity(android.view.Gravity.CENTER);
-                        groupLayout.addView(groupTextView);
+                            if (groupName != null) {
+                                LinearLayout groupLayout = new LinearLayout(GroupPageActivity.this);
+                                groupLayout.setLayoutParams(new LinearLayout.LayoutParams(
+                                        ViewGroup.LayoutParams.MATCH_PARENT,
+                                        ViewGroup.LayoutParams.WRAP_CONTENT));
+                                groupLayout.setOrientation(LinearLayout.HORIZONTAL);
+                                groupLayout.setGravity(android.view.Gravity.CENTER);
 
-                        ImageButton addMemberButton = new ImageButton(GroupPageActivity.this);
-                        addMemberButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-                        addMemberButton.setImageResource(R.drawable.baseline_add_24);
-                        addMemberButton.setOnClickListener(v -> {
-                            Intent addMemberIntent = new Intent(GroupPageActivity.this, AddStudentToGroupActivity.class);
-                            addMemberIntent.putExtra("GROUP_ID", groupId);
-                            startActivity(addMemberIntent);
-                        });
+                                TextView groupTextView = new TextView(GroupPageActivity.this);
+                                groupTextView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+                                groupTextView.setText(groupName);
+                                groupTextView.setGravity(android.view.Gravity.CENTER);
+                                groupLayout.addView(groupTextView);
 
-                        groupLayout.addView(addMemberButton);
-                        groupsLayout.addView(groupLayout);
+                                ImageButton addMemberButton = new ImageButton(GroupPageActivity.this);
+                                addMemberButton.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+                                addMemberButton.setImageResource(R.drawable.baseline_add_24);
+                                addMemberButton.setOnClickListener(v -> {
+                                    Intent addMemberIntent = new Intent(GroupPageActivity.this, AddStudentToGroupActivity.class);
+                                    addMemberIntent.putExtra("GROUP_ID", groupId);
+                                    startActivity(addMemberIntent);
+                                });
+
+                                groupLayout.addView(addMemberButton);
+                                groupsLayout.addView(groupLayout);
+                            }
+                        }
                     }
                 }
             }
