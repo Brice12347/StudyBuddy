@@ -1,5 +1,6 @@
 package com.example.studybuddy;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 public class newGroupActivity extends AppCompatActivity {
     FloatingActionButton addMemberFunction;
     Course currCourse;
+    String courseName;
     ArrayList<User> selectedUsers = new ArrayList<>();
 
     @Override
@@ -21,6 +23,10 @@ public class newGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_student_to_group_page);
 
+        Intent intent = getIntent();
+        courseName = intent.getStringExtra("username");
+        currCourse = new Course();
+        currCourse.setCourseName(courseName);
         addMemberFunction.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -28,6 +34,7 @@ public class newGroupActivity extends AppCompatActivity {
 //              TODO:
 //                I need an intent that gives me the current class so that I can access
 //                the students enrolled in the class. This will be currCourse
+
                 showCourseMenu(view);
             }
         });

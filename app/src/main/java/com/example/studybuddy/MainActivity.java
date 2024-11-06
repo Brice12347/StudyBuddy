@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                             // Username is available, proceed with signup
                             User helperClass = new User(username, password, email);
                             DatabaseReference userRef = reference.child(username);
-                            userRef.setValue(helperClass);
+
 
                             // Store selected courses under the user's "courses" node
                             if (!selectedCourses.isEmpty()) {
@@ -101,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
                                     // Add more course details as needed
                                 }
                             }
+
+                            helperClass.userCourses = selectedCourses;
+
+                            userRef.setValue(helperClass);
 
 
 

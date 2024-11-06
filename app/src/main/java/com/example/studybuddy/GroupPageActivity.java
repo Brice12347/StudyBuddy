@@ -28,6 +28,7 @@ public class GroupPageActivity extends AppCompatActivity {
     private DatabaseReference coursesRef;
     private LinearLayout groupsLayout;
     private String username;
+    private String courseName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,8 @@ public class GroupPageActivity extends AppCompatActivity {
 
         loadUserGroups();
 
+
+
         findViewById(R.id.button).setOnClickListener(v -> {
             Toast.makeText(this, "Add Group functionality not implemented yet", Toast.LENGTH_SHORT).show();
         });
@@ -58,6 +61,8 @@ public class GroupPageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot courseSnapshot : snapshot.getChildren()) {
+
+                    courseName = courseSnapshot.getKey();
                     DataSnapshot groupsSnapshot = courseSnapshot.child("Groups");
 
                     for (DataSnapshot groupSnapshot : groupsSnapshot.getChildren()) {
@@ -92,6 +97,15 @@ public class GroupPageActivity extends AppCompatActivity {
         groupTextView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
         groupTextView.setText(groupName);
         groupTextView.setGravity(android.view.Gravity.CENTER);
+
+        groupTextView.setOnClickListener(v -> {
+//            TODO: change code here
+            Intent studyGroupIntent = new Intent(GroupPageActivity.this, StudyGroupActivity.class);
+            studyGroupIntent.putExtra("COURSE_NAME", courseName);
+            studyGroupIntent.putExtra("GROUP_ID", groupId);
+            startActivity(studyGroupIntent);
+        });
+
         groupLayout.addView(groupTextView);
 
         // Create and set up ImageButton to add members
@@ -100,7 +114,10 @@ public class GroupPageActivity extends AppCompatActivity {
         addMemberButton.setImageResource(R.drawable.baseline_add_24);
         addMemberButton.setOnClickListener(v -> {
             Intent addMemberIntent = new Intent(GroupPageActivity.this, newGroupActivity.class);
+//            TODO:find class of this group
             addMemberIntent.putExtra("GROUP_ID", groupId);
+            addMemberIntent.putExtra("COURSE_NAME", courseName);
+
             startActivity(addMemberIntent);
         });
 
@@ -111,11 +128,11 @@ public class GroupPageActivity extends AppCompatActivity {
     }
 
     // Method to start MessagesActivity with the selected group name
-    private void openGroupChat(String groupName) {
-        Intent intent = new Intent(GroupPageActivity.this, MessagesActivity.class);
-        intent.putExtra("groupName", groupName);
-        startActivity(intent);
-    }
+//    private void openGroupChat(String groupName) {
+//        Intent intent = new Intent(GroupPageActivity.this, MessagesActivity.class);
+//        intent.putExtra("groupName", groupName);
+//        startActivity(intent);
+//    }
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
