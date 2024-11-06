@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#D3D3D3"
+        android:padding="16dp"
+        android:layout_margin="8dp"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:id="@+id/studyGroupTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Member List"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+    </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/memberListContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#F0F0F0"
+        android:layout_marginBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- Add member items here -->
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+        <Button
+            android:id="@+id/chatBoxButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:padding="8dp"
+            android:layout_margin="4dp"
+            android:text="ChatBox" />
+
+        <Button
+            android:id="@+id/groupCalendarButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:padding="8dp"
+            android:layout_margin="4dp"
+            android:text="Group Calendar" />
+
+        <Button
+            android:id="@+id/addNewSessionsButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Adding New Sessions"
+            android:padding="8dp"
+            android:background="#E0E0E0"
+            android:layout_margin="4dp" />
+
+        <Button
+            android:id="@+id/resourcesButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#E0E0E0"
+            android:padding="8dp"
+            android:layout_margin="4dp"
+            android:text="Resources" />
+    </LinearLayout>
+</LinearLayout>
