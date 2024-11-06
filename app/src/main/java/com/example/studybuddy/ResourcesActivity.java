@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,6 +32,7 @@ public class ResourcesActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private String groupId = "studyGroup123"; // Replace with dynamic groupId
     private String category;
+    private EditText searchBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,14 @@ public class ResourcesActivity extends AppCompatActivity {
         Button uploadPracticeExamsButton = findViewById(R.id.uploadPracticeExamsButton);
         Button uploadProjectHelpButton = findViewById(R.id.uploadProjectHelpButton);
 
+        Button viewLectureNotesButton = findViewById(R.id.viewLectureNotesButton);
+        Button viewPracticeExamsButton = findViewById(R.id.viewPracticeExamsButton);
+        Button viewProjectHelpButton = findViewById(R.id.viewProjectHelpButton);
+
+        searchBar = findViewById(R.id.searchBar);
+
+
+
         uploadLectureNotesButton.setOnClickListener(view -> {
             category = "LectureNotes";
             selectFile();
@@ -78,6 +89,26 @@ public class ResourcesActivity extends AppCompatActivity {
             category = "ProjectHelp";
             selectFile();
         });
+
+        viewLectureNotesButton.setOnClickListener(view -> openFileList("LectureNotes"));
+        viewPracticeExamsButton.setOnClickListener(view -> openFileList("PracticeExams"));
+        viewProjectHelpButton.setOnClickListener(view -> openFileList("ProjectHelp"));
+
+        searchBar.setOnEditorActionListener((v, actionId, event) -> {
+            String searchTerm = searchBar.getText().toString();
+            Intent intent = new Intent(ResourcesActivity.this, SearchResultsActivity.class);
+            intent.putExtra("searchTerm", searchTerm);
+            startActivity(intent);
+            return true;
+        });
+
+    }
+
+    private void openFileList(String category) {
+        Intent intent = new Intent(ResourcesActivity.this, FileListActivity.class);
+        intent.putExtra("groupId", groupId);
+        intent.putExtra("category", category);
+        startActivity(intent);
     }
 
 

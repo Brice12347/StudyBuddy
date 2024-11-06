@@ -58,7 +58,10 @@
             android:name=".ResourcesActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".FileListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SearchResultsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
