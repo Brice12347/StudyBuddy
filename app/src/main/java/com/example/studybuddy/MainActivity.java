@@ -127,6 +127,10 @@ public class MainActivity extends AppCompatActivity {
                                     String courseId = userRef.child("courses").push().getKey(); // Generate a unique ID for each course
                                     DatabaseReference courseRef = userRef.child("courses").child(courseId);
 
+                                    DatabaseReference masterCourseRef = database.getReference(course.getCourseId());
+//                                    complete here
+                                    masterCourseRef.child(username).setValue(true);
+
                                     courseRef.child("courseName").setValue(course.getCourseName());
                                     courseRef.child("courseDescription").setValue(course.getDescription());
                                     courseRef.child("courseCode").setValue(course.getCourseId());

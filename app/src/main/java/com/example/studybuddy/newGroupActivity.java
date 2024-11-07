@@ -60,48 +60,39 @@ public class newGroupActivity extends AppCompatActivity {
 
 
     private void showUserMenu(View view) {
-        DatabaseReference usersRef = FirebaseDatabase.getInstance()
-                .getReference("users");
+        // Reference the course directly by courseName
+        DatabaseReference courseRef = FirebaseDatabase.getInstance()
+                .getReference(courseName);
 
-        // Fetch users and filter by course code
-        usersRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        courseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 PopupMenu popupMenu = new PopupMenu(newGroupActivity.this, view);
-                boolean hasItems = false;
 
+                // Loop through each username under the specified course
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-                    String username = userSnapshot.child("username").getValue(String.class);
-                    String userCourseCode = userSnapshot.child("courses").child("courseCode").getValue(String.class);
+                    String username = userSnapshot.getKey(); // Username is the key in the JSON structure
 
-                    // Check if the user's course code matches the specified course name
-                    if (userCourseCode != null && userCourseCode.equals(courseName)) {
-                        popupMenu.getMenu().add(username);  // Add matching usernames to menu
-                        hasItems = true;
-                    }
+                    // Add the username to the menu
+                    popupMenu.getMenu().add(username);
                 }
 
-                if (hasItems) {
-                    // Handle user selection from popup menu
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            String selectedUser = menuItem.getTitle().toString();
-                            if (!selectedUsernames.contains(selectedUser)) {
-                                selectedUsernames.add(selectedUser);
-                                Toast.makeText(newGroupActivity.this, selectedUser + " added", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(newGroupActivity.this, selectedUser + " is already selected", Toast.LENGTH_SHORT).show();
-                            }
-                            return true;
+                // Handle user selection from popup menu
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem menuItem) {
+                        String selectedUser = menuItem.getTitle().toString();
+                        if (!selectedUsernames.contains(selectedUser)) {
+                            selectedUsernames.add(selectedUser);
+                            Toast.makeText(newGroupActivity.this, selectedUser + " added", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(newGroupActivity.this, selectedUser + " is already selected", Toast.LENGTH_SHORT).show();
                         }
-                    });
+                        return true;
+                    }
+                });
 
-                    popupMenu.show();
-                } else {
-                    // Notify if no users matched the course name
-                    Toast.makeText(newGroupActivity.this, "No users found for this course", Toast.LENGTH_SHORT).show();
-                }
+                popupMenu.show();
             }
 
             @Override
@@ -116,7 +107,7 @@ public class newGroupActivity extends AppCompatActivity {
 
         // Add selected users to the group in Firebase
         for (String username : selectedUsernames) {
-            groupRef.push().setValue(username);
+            groupRef.child(username).setValue(true);
         }
 
         Toast.makeText(this, "Members added to group", Toast.LENGTH_SHORT).show();
