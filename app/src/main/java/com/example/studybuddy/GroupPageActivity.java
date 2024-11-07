@@ -121,6 +121,7 @@ public class GroupPageActivity extends AppCompatActivity {
             Intent addMemberIntent = new Intent(GroupPageActivity.this, newGroupActivity.class);
             Log.i("DATA","group name is " + groupName);
             addMemberIntent.putExtra("GROUP_ID", groupName);
+            Log.i("DATA","Course name is " + courseName);
             addMemberIntent.putExtra("COURSE_NAME", courseName);
             addMemberIntent.putExtra("username", username);
 

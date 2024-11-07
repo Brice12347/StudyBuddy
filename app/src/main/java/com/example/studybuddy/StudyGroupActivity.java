@@ -80,13 +80,19 @@ public class StudyGroupActivity extends AppCompatActivity {
         });
         //groupCalendarButton.setOnClickListener(v -> startActivity(new Intent(StudyGroupActivity.this, ResourcesActivity.class)));
         groupCalendarButton.setOnClickListener(v -> openGoogleCalendar());
-        addNewSessionsButton.setOnClickListener(v -> startActivity(new Intent(StudyGroupActivity.this, ScheduleActivity.class)));
+        addNewSessionsButton.setOnClickListener(v -> {
+            Intent scheduleIntent = new Intent(StudyGroupActivity.this, ScheduleActivity.class);
+            scheduleIntent.putExtra("COURSE_NAME", courseName);
+            scheduleIntent.putExtra("GROUP_ID", groupId);
+            scheduleIntent.putExtra("USERNAME", username);
+            startActivity(scheduleIntent);
+        });
         resourcesButton.setOnClickListener(v -> {
-//            Intent resourcesIntent = new Intent(StudyGroupActivity.this, ResourcesActivity.class);
-//            resourcesIntent.putExtra("COURSE_NAME", courseName);
-//            resourcesIntent.putExtra("GROUP_ID", groupId);
-//            resourcesIntent.putExtra("USERNAME", username);
-//            startActivity(resourcesIntent);
+            Intent resourcesIntent = new Intent(StudyGroupActivity.this, ResourcesActivity.class);
+            resourcesIntent.putExtra("COURSE_NAME", courseName);
+            resourcesIntent.putExtra("GROUP_ID", groupId);
+            resourcesIntent.putExtra("USERNAME", username);
+            startActivity(resourcesIntent);
         });
 
         // Load and display group members
@@ -123,10 +129,22 @@ public class StudyGroupActivity extends AppCompatActivity {
     }
 
     private void addMemberToList(String memberName) {
-        TextView memberTextView = new TextView(this);
-        memberTextView.setText(memberName);
-        memberTextView.setPadding(16, 16, 16, 16);
-        memberTextView.setTextSize(16);
-        memberListLayout.addView(memberTextView);
+        // Create a button for each member
+        Button memberButton = new Button(this);
+        memberButton.setText(memberName);
+        memberButton.setPadding(16, 16, 16, 16);
+        memberButton.setTextSize(16);
+
+        // When clicked, start MessagesActivity for a direct message chat
+        memberButton.setOnClickListener(v -> {
+            Intent dmIntent = new Intent(StudyGroupActivity.this, MessagesActivity.class);
+            dmIntent.putExtra("IS_DIRECT_MESSAGE", true); // Flag to differentiate between group and direct messages
+            dmIntent.putExtra("OTHER_USER", memberName); // The user to chat with
+            dmIntent.putExtra("USERNAME", username); // The current user's username
+            startActivity(dmIntent);
+        });
+
+        memberListLayout.addView(memberButton);
     }
+
 }

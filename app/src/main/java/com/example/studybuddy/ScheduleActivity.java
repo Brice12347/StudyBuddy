@@ -81,6 +81,7 @@ public class ScheduleActivity extends AppCompatActivity {
         groupId = intent.getStringExtra("GROUP_ID");
         groupName = intent.getStringExtra("GROUP_NAME");
 
+
         // Initialize Firebase reference for the group
         FirebaseDatabase db = FirebaseDatabase.getInstance();
         groupRef = db.getReference("Courses").child(intent.getStringExtra("COURSE_NAME")).child("Groups").child(groupId).child("members");
@@ -146,12 +147,28 @@ public class ScheduleActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
-                    String memberEmail = memberSnapshot.getValue(String.class);  // Assuming the value is the email address
-                    if (memberEmail != null) {
-                        inviteesList.add(memberEmail);
-                    }
+                    String username = memberSnapshot.getKey();  // Get the username of each member
+
+                    // Now look up the email in the users node
+                    FirebaseDatabase.getInstance().getReference("users")
+                            .child(username)
+                            .child("email")
+                            .addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot emailSnapshot) {
+                                    String memberEmail = emailSnapshot.getValue(String.class);
+                                    if (memberEmail != null) {
+                                        inviteesList.add(memberEmail);
+                                    }
+                                    Log.i("ScheduleActivity", "Invitees loaded: " + inviteesList);
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+                                    Log.e("ScheduleActivity", "Error loading email for user " + username, databaseError.toException());
+                                }
+                            });
                 }
-                Log.i("ScheduleActivity", "Invitees loaded: " + inviteesList);
             }
 
             @Override
@@ -161,6 +178,7 @@ public class ScheduleActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

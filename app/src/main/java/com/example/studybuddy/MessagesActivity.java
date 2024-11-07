@@ -35,6 +35,10 @@ public class MessagesActivity extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     private DatabaseReference messagesRef;
     private String username;
+    private boolean isDirectMessage;
+    private String otherUser;
+    private String courseName;
+    private String groupId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,21 +51,48 @@ public class MessagesActivity extends AppCompatActivity {
         ed = findViewById(R.id.edmsg);
 
         // Retrieve course name and group ID from Intent
-        String courseName = getIntent().getStringExtra("COURSE_NAME");
-        String groupId = getIntent().getStringExtra("GROUP_ID");
-        String username = getIntent().getStringExtra("USERNAME");
+        //String courseName = getIntent().getStringExtra("COURSE_NAME");
+        //String groupId = getIntent().getStringExtra("GROUP_ID");
+        username = getIntent().getStringExtra("USERNAME");
+        isDirectMessage = getIntent().getBooleanExtra("IS_DIRECT_MESSAGE", false);
+        otherUser = getIntent().getStringExtra("OTHER_USER");
+        courseName = getIntent().getStringExtra("COURSE_NAME");
+        groupId = getIntent().getStringExtra("GROUP_ID");
+
+        isDirectMessage = getIntent().getBooleanExtra("IS_DIRECT_MESSAGE", false);
+        otherUser = getIntent().getStringExtra("OTHER_USER");
 
 
 
-        if (courseName == null || groupId == null || username == null) {
+        /*if (username == null || otherUser == null) {
             Toast.makeText(this, "Course or group information is missing", Toast.LENGTH_SHORT).show();
             finish();
             return;
-        }
+        }*/
 
         // Set up Firebase reference for the group's messages
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        messagesRef = db.getReference("Courses").child(courseName).child("Groups").child(groupId).child("messages");
+
+        if (isDirectMessage) {
+            // Check if both usernames are available for direct messages
+            if (username == null || otherUser == null) {
+                Toast.makeText(this, "Direct message user information is missing", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+            // Set up Firebase reference for direct messages
+            String chatId = generateChatId(username, otherUser);
+            messagesRef = db.getReference("DirectMessages").child(chatId);
+        } else {
+            // Check if both course and group information are available for group messages
+            if (courseName == null || groupId == null) {
+                Toast.makeText(this, "Group or course information is missing", Toast.LENGTH_SHORT).show();
+                finish();
+                return;
+            }
+            // Set up Firebase reference for group messages
+            messagesRef = db.getReference("Courses").child(courseName).child("Groups").child(groupId).child("messages");
+        }
 
         //FirebaseDatabase db = FirebaseDatabase.getInstance();
 //        TODO: use intent to send class name and group name.
@@ -82,40 +113,9 @@ public class MessagesActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
 
 
-        messagesRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                String text = snapshot.child("text").getValue(String.class);
-                String senderId = snapshot.child("senderId").getValue(String.class);
-                String time = snapshot.child("time").getValue(String.class);
+        loadMessages();
 
-                if (text != null && senderId != null && time != null) {
-                    String message = senderId + " (" + time + "): " + text;
-                    messagesList.add(message);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+        send.setOnClickListener(view -> sendMessage());
 
         // Send button click listener to send a message
         send.setOnClickListener(new View.OnClickListener() {
@@ -142,6 +142,56 @@ public class MessagesActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String generateChatId(String user1, String user2) {
+        // Sort usernames to ensure a consistent chat ID regardless of who initiated the chat
+        return (user1.compareTo(user2) < 0) ? user1 + "_" + user2 : user2 + "_" + user1;
+    }
+
+    private void loadMessages() {
+        messagesRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                String text = snapshot.child("text").getValue(String.class);
+                String senderId = snapshot.child("senderId").getValue(String.class);
+                String time = snapshot.child("time").getValue(String.class);
+
+                if (text != null && senderId != null && time != null) {
+                    String message = senderId + " (" + time + "): " + text;
+                    messagesList.add(message);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {}
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {}
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {}
+        });
+    }
+
+    private void sendMessage() {
+        String messageText = ed.getText().toString().trim();
+        if (!messageText.isEmpty()) {
+            String time = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
+            Map<String, Object> newMessage = new HashMap<>();
+            newMessage.put("text", messageText);
+            newMessage.put("senderId", username);
+            newMessage.put("time", time);
+
+            // Push the new message to Firebase
+            messagesRef.push().setValue(newMessage);
+
+            // Clear the input field
+            ed.setText("");
+        } else {
+            Toast.makeText(MessagesActivity.this, "Enter a message", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
