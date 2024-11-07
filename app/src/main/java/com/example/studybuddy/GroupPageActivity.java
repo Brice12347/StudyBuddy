@@ -52,7 +52,8 @@ public class GroupPageActivity extends AppCompatActivity {
 
 
         findViewById(R.id.button).setOnClickListener(v -> {
-            Toast.makeText(this, "Add Group functionality not implemented yet", Toast.LENGTH_SHORT).show();
+            Intent intent1 = new Intent(GroupPageActivity.this, GroupCreateActivity.class);
+            startActivity(intent1);
         });
     }
 
@@ -100,7 +101,6 @@ public class GroupPageActivity extends AppCompatActivity {
         groupTextView.setGravity(android.view.Gravity.CENTER);
 
         groupTextView.setOnClickListener(v -> {
-//            TODO: change code here
             Intent studyGroupIntent = new Intent(GroupPageActivity.this, StudyGroupActivity.class);
             studyGroupIntent.putExtra("COURSE_NAME", courseName);
             studyGroupIntent.putExtra("username", username);
@@ -116,7 +116,6 @@ public class GroupPageActivity extends AppCompatActivity {
         addMemberButton.setImageResource(R.drawable.baseline_add_24);
         addMemberButton.setOnClickListener(v -> {
             Intent addMemberIntent = new Intent(GroupPageActivity.this, newGroupActivity.class);
-//            TODO:find class of this group
             addMemberIntent.putExtra("GROUP_ID", groupId);
             addMemberIntent.putExtra("COURSE_NAME", courseName);
             addMemberIntent.putExtra("username", username);

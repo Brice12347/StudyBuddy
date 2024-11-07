@@ -82,11 +82,11 @@ public class StudyGroupActivity extends AppCompatActivity {
         groupCalendarButton.setOnClickListener(v -> openGoogleCalendar());
         addNewSessionsButton.setOnClickListener(v -> startActivity(new Intent(StudyGroupActivity.this, ScheduleActivity.class)));
         resourcesButton.setOnClickListener(v -> {
-            Intent resourcesIntent = new Intent(StudyGroupActivity.this, ResourcesActivity.class);
-            resourcesIntent.putExtra("COURSE_NAME", courseName);
-            resourcesIntent.putExtra("GROUP_ID", groupId);
-            resourcesIntent.putExtra("USERNAME", username);
-            startActivity(resourcesIntent);
+//            Intent resourcesIntent = new Intent(StudyGroupActivity.this, ResourcesActivity.class);
+//            resourcesIntent.putExtra("COURSE_NAME", courseName);
+//            resourcesIntent.putExtra("GROUP_ID", groupId);
+//            resourcesIntent.putExtra("USERNAME", username);
+//            startActivity(resourcesIntent);
         });
 
         // Load and display group members
