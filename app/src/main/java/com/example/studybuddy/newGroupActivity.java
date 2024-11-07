@@ -2,6 +2,8 @@ package com.example.studybuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,7 +25,7 @@ public class newGroupActivity extends AppCompatActivity {
     Button enterButton;
     Course currCourse;
     String courseName;
-    String groupId;
+    String groupName;
     ArrayList<String> selectedUsernames = new ArrayList<>();
 
     @Override
@@ -36,12 +38,14 @@ public class newGroupActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         courseName = intent.getStringExtra("COURSE_NAME");
-        groupId = intent.getStringExtra("GROUP_ID");
+        groupName = intent.getStringExtra("GROUP_ID");
+        Log.i("DATA","group name(pt.2) is " + groupName);
 //        currCourse = new Course();
 //        currCourse.setCourseName(courseName);
         addMemberFunction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.i("DATA","is group addMemberFunction clicked " + groupName);
                 showUserMenu(view);
             }
         });
@@ -64,6 +68,8 @@ public class newGroupActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 PopupMenu popupMenu = new PopupMenu(newGroupActivity.this, view);
+                boolean hasItems = false;
+
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String username = userSnapshot.child("username").getValue(String.class);
                     String userCourseCode = userSnapshot.child("courses").child("courseCode").getValue(String.class);
@@ -71,22 +77,31 @@ public class newGroupActivity extends AppCompatActivity {
                     // Check if the user's course code matches the specified course name
                     if (userCourseCode != null && userCourseCode.equals(courseName)) {
                         popupMenu.getMenu().add(username);  // Add matching usernames to menu
+                        hasItems = true;
                     }
                 }
 
-                // Handle user selection from popup menu
-                popupMenu.setOnMenuItemClickListener(menuItem -> {
-                    String selectedUser = menuItem.getTitle().toString();
-                    if (!selectedUsernames.contains(selectedUser)) {
-                        selectedUsernames.add(selectedUser);
-                        Toast.makeText(newGroupActivity.this, selectedUser + " added", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(newGroupActivity.this, selectedUser + " is already selected", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                });
+                if (hasItems) {
+                    // Handle user selection from popup menu
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            String selectedUser = menuItem.getTitle().toString();
+                            if (!selectedUsernames.contains(selectedUser)) {
+                                selectedUsernames.add(selectedUser);
+                                Toast.makeText(newGroupActivity.this, selectedUser + " added", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(newGroupActivity.this, selectedUser + " is already selected", Toast.LENGTH_SHORT).show();
+                            }
+                            return true;
+                        }
+                    });
 
-                popupMenu.show();
+                    popupMenu.show();
+                } else {
+                    // Notify if no users matched the course name
+                    Toast.makeText(newGroupActivity.this, "No users found for this course", Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -97,12 +112,7 @@ public class newGroupActivity extends AppCompatActivity {
     }
 
     private void addSelectedUsersToGroup() {
-        DatabaseReference groupRef = FirebaseDatabase.getInstance()
-                .getReference("Courses")
-                .child(courseName)
-                .child("Groups")
-                .child(groupId)
-                .child("members");
+        DatabaseReference groupRef = FirebaseDatabase.getInstance().getReference("Courses").child(courseName).child("Groups").child(groupName).child("members");
 
         // Add selected users to the group in Firebase
         for (String username : selectedUsernames) {
