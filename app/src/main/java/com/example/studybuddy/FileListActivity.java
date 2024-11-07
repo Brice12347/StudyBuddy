@@ -59,6 +59,7 @@ public class FileListActivity extends AppCompatActivity {
             if (url != null) {
                 if (url.startsWith("http")) {
                     openUrlInBrowser(url);
+                    downloadFile(selectedFile, url);
                 } else {
                     downloadFile(selectedFile, url);
                 }

@@ -1,16 +1,5 @@
 package com.example.studybuddy;
 
-<<<<<<< HEAD
-import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
-public class ResourcesActivity {
-=======
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -41,14 +30,28 @@ public class ResourcesActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
-    private String groupId = "studyGroup123"; // Replace with dynamic groupId
+    private String groupId;// = "studyGroup123"; // Replace with dynamic groupId
     private String category;
     private EditText searchBar;
+    private String courseName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resource);
+
+        Intent init_intent = getIntent();
+        courseName = init_intent.getStringExtra("COURSE_NAME");
+        groupId = init_intent.getStringExtra("GROUP_ID");
+        Log.i("DATA", "Course Name is: " + courseName);
+        Log.i("DATA", "Group_ID is: " + groupId);
+
+        if (courseName == null || groupId == null) {
+            Toast.makeText(this, "Missing course name or group ID", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
 
         FirebaseAuth.getInstance().signInAnonymously()
                 .addOnCompleteListener(this, task -> {
@@ -86,6 +89,9 @@ public class ResourcesActivity extends AppCompatActivity {
 
         searchBar = findViewById(R.id.searchBar);
 
+        // Ensure the necessary folders exist
+        initializeFolders();
+
 
 
         uploadLectureNotesButton.setOnClickListener(view -> {
@@ -109,11 +115,29 @@ public class ResourcesActivity extends AppCompatActivity {
             String searchTerm = searchBar.getText().toString();
             Intent intent = new Intent(ResourcesActivity.this, SearchResultsActivity.class);
             intent.putExtra("searchTerm", searchTerm);
+            intent.putExtra("GROUP_ID", groupId);
+            intent.putExtra("category", category);
+
             startActivity(intent);
             return true;
         });
 
     }
+
+    private void initializeFolders() {
+        String[] categories = {"LectureNotes", "PracticeExams", "ProjectHelp"};
+        for (String cat : categories) {
+            StorageReference folderRef = storageReference.child("studyGroups/" + groupId + "/" + cat);
+            folderRef.listAll().addOnSuccessListener(listResult -> {
+                if (listResult.getItems().isEmpty()) {
+                    folderRef.child("placeholder.txt").putBytes("Placeholder file".getBytes())
+                            .addOnSuccessListener(taskSnapshot -> Log.i("FirebaseStorage", "Initialized folder: " + cat))
+                            .addOnFailureListener(e -> Log.e("FirebaseStorage", "Failed to initialize folder: " + cat, e));
+                }
+            }).addOnFailureListener(e -> Log.e("FirebaseStorage", "Error checking folder existence: " + cat, e));
+        }
+    }
+
 
     private void openFileList(String category) {
         Intent intent = new Intent(ResourcesActivity.this, FileListActivity.class);
@@ -146,36 +170,59 @@ public class ResourcesActivity extends AppCompatActivity {
     }
 
     private void uploadFile() {
-        if (filePath != null) {//TEMPORARY DATABASE REFERENCE
-            //StorageReference ref = storageReference.child("studyGroups/" + groupId + "/" + category + "/" + System.currentTimeMillis());
-            //StorageReference ref = storageReference.child("studyGroups/group1/"  + category + "/" + System.currentTimeMillis());
+        if (filePath != null) {
+            String fileName = getFileName(filePath);
+            String sanitizedFileName = sanitizeFileName(fileName); // Sanitize the filename
 
-            //temp:
-            StorageReference ref = storageReference.child("studyGroups/studyGroup123/"  + category + "/" + System.currentTimeMillis());
-            Log.i("Print","Storage REF IS: " + ref);
+            StorageReference ref = storageReference.child("studyGroups/" + groupId + "/" + category + "/" + fileName);
 
-
-            Log.i("Print","Line 108 FilePath IS: " + filePath);
+            Log.i("Print", "Storage REF IS: " + ref);
+            Log.i("Print", "Line 178 FilePath IS: " + filePath);
 
             ref.putFile(filePath)
                     .addOnSuccessListener(taskSnapshot -> ref.getDownloadUrl().addOnSuccessListener(uri -> {
-                        String uploadId = databaseReference.push().getKey();
-                        Log.i("Print","Upload ID IS: " + uploadId);
-                        databaseReference.child(groupId).child(category).child(uploadId).setValue(uri.toString());
+                        // Store the file URL with the sanitized file name as the key
+                        Log.i("Print", "File Name IS: " + fileName);
+                        databaseReference.child(groupId).child(category).child(sanitizedFileName).setValue(uri.toString());
                         Toast.makeText(ResourcesActivity.this, "File Uploaded!", Toast.LENGTH_SHORT).show();
                     }))
                     .addOnFailureListener(e -> Toast.makeText(ResourcesActivity.this, "Upload Failed: " + e.getMessage(), Toast.LENGTH_LONG).show());
 
-
-
-
-
-            Log.i("Print","Database REF IS: " + databaseReference);
-            Log.i("Print","Database REF IS: " + databaseReference);
+            Log.i("Print", "Database REF IS: " + databaseReference);
 
         } else {
             Toast.makeText(this, "File path is null", Toast.LENGTH_SHORT).show();
         }
     }
->>>>>>> refs/heads/JonathanWork
+
+    // Method to sanitize the file name for Firebase Database
+    private String sanitizeFileName(String fileName) {
+        return fileName.replace(".", "_")
+                .replace("#", "_")
+                .replace("$", "_")
+                .replace("[", "_")
+                .replace("]", "_");
+    }
+
+
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                    if (nameIndex >= 0) {
+                        result = cursor.getString(nameIndex);
+                    }
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
+    }
+
+
 }

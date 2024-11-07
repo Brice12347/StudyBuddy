@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import java.util.ArrayList;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -40,6 +42,10 @@ public class ScheduleActivity extends AppCompatActivity {
     Button addEvent;
     private DatabaseReference databaseReference;
     private String calendarId;
+    private DatabaseReference groupRef;
+    private String groupId;
+    private String groupName;
+    private ArrayList<String> inviteesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,19 @@ public class ScheduleActivity extends AppCompatActivity {
 //            }
 //        });
 
+        Intent intent = getIntent();
+        groupId = intent.getStringExtra("GROUP_ID");
+        groupName = intent.getStringExtra("GROUP_NAME");
+
+        // Initialize Firebase reference for the group
+        FirebaseDatabase db = FirebaseDatabase.getInstance();
+        groupRef = db.getReference("Courses").child(intent.getStringExtra("COURSE_NAME")).child("Groups").child(groupId).child("members");
+
+        inviteesList = new ArrayList<>();
+
+        // Fetch group members' emails
+        loadGroupMembers();
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[] {
                     Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
@@ -88,9 +107,19 @@ public class ScheduleActivity extends AppCompatActivity {
                     intent.putExtra(CalendarContract.Events.EVENT_LOCATION, location.getText().toString());
                     intent.putExtra(CalendarContract.Events.DESCRIPTION, description.getText().toString());
                     intent.putExtra(CalendarContract.Events.ALL_DAY, true);
+
+                    intent.putExtra(CalendarContract.Events.CALENDAR_DISPLAY_NAME, groupName);
 //                  intent.putExtra(CalendarContract.Events.CALENDAR_ID, calendarId);
 //                    guests
-//                    intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com, test2@yahoo.com, test3@yahoo.com");
+//                    //intent.putExtra(Intent.EXTRA_EMAIL, "test@yahoo.com, test2@yahoo.com, test3@yahoo.com");
+
+                    if (!inviteesList.isEmpty()) {
+                        StringBuilder invitees = new StringBuilder();
+                        for (String email : inviteesList) {
+                            invitees.append(email).append(",");
+                        }
+                        intent.putExtra(Intent.EXTRA_EMAIL, invitees.toString());
+                    }
 
                     if(intent.resolveActivity(getPackageManager()) != null){
 //                        startActivity(intent);
@@ -110,6 +139,29 @@ public class ScheduleActivity extends AppCompatActivity {
         });
 
     }
+
+
+    private void loadGroupMembers() {
+        groupRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot memberSnapshot : dataSnapshot.getChildren()) {
+                    String memberEmail = memberSnapshot.getValue(String.class);  // Assuming the value is the email address
+                    if (memberEmail != null) {
+                        inviteesList.add(memberEmail);
+                    }
+                }
+                Log.i("ScheduleActivity", "Invitees loaded: " + inviteesList);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(ScheduleActivity.this, "Failed to load group members", Toast.LENGTH_SHORT).show();
+                Log.e("ScheduleActivity", "Error loading members", databaseError.toException());
+            }
+        });
+    }
+
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

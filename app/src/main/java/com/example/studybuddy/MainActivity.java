@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().signInAnonymously()
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(MainActivity.this, "Signed in anonymously", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(MainActivity.this, "Signed in anonymously", Toast.LENGTH_SHORT).show();
                         Log.i("FirebaseAuth", "Anonymous sign-in successful");
                     } else {
                         Toast.makeText(MainActivity.this, "Anonymous sign-in failed", Toast.LENGTH_SHORT).show();

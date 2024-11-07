@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +29,12 @@ public class SearchResultsActivity extends AppCompatActivity {
 
     private ListView searchResultsListView;
     private DatabaseReference databaseReference;
+    private StorageReference storageReference;
+
     private ArrayList<String> fileNames;
     private Map<String, String> fileUrls;
+    private String groupId; // Pass this dynamically if required
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +46,13 @@ public class SearchResultsActivity extends AppCompatActivity {
         fileUrls = new HashMap<>();
 
         String searchTerm = getIntent().getStringExtra("searchTerm");
-        databaseReference = FirebaseDatabase.getInstance().getReference("Resources").child("studyGroup123");
+        groupId = getIntent().getStringExtra("GROUP_ID");
+
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Resources").child(groupId);
+        //storageReference = FirebaseStorage.getInstance().getReference("studyGroups/" + groupId);
+
+
 
         searchFiles(searchTerm);
 
@@ -51,6 +63,7 @@ public class SearchResultsActivity extends AppCompatActivity {
             if (url != null) {
                 if (url.startsWith("http")) {
                     openUrlInBrowser(url);
+                    downloadFile(selectedFile, url);
                 } else {
                     downloadFile(selectedFile, url);
                 }
