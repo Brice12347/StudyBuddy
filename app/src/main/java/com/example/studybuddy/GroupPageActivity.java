@@ -116,7 +116,8 @@ public class GroupPageActivity extends AppCompatActivity {
         addMemberButton.setImageResource(R.drawable.baseline_add_24);
         addMemberButton.setOnClickListener(v -> {
             Intent addMemberIntent = new Intent(GroupPageActivity.this, newGroupActivity.class);
-            addMemberIntent.putExtra("GROUP_ID", groupId);
+            Log.i("DATA","group name is " + groupName);
+            addMemberIntent.putExtra("GROUP_ID", groupName);
             addMemberIntent.putExtra("COURSE_NAME", courseName);
             addMemberIntent.putExtra("username", username);
 
