@@ -93,7 +93,7 @@ public class LoginActivity extends AppCompatActivity {
                         loginUsername.setError(null);
                         String usernameFromDB = snapshot.child(userUsername).child("username").getValue(String.class);
                         Intent intent = new Intent(LoginActivity.this, LandingPageActivity.class);
-                         intent = new Intent(LoginActivity.this, StudyGroupActivity.class);
+                         //intent = new Intent(LoginActivity.this, StudyGroupActivity.class);
                         intent.putExtra("username", usernameFromDB);
                         intent.putExtra("password", passwordFromDB);
                         startActivity(intent);

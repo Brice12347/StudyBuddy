@@ -61,8 +61,8 @@ public class GroupPageActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot courseSnapshot : snapshot.getChildren()) {
-
-                    courseName = courseSnapshot.getKey();
+                    String currentCourseName = courseSnapshot.getKey();
+                    Log.i("DATA", "Course Name is: " + currentCourseName);
                     DataSnapshot groupsSnapshot = courseSnapshot.child("Groups");
 
                     for (DataSnapshot groupSnapshot : groupsSnapshot.getChildren()) {
@@ -70,7 +70,8 @@ public class GroupPageActivity extends AppCompatActivity {
                         DataSnapshot membersSnapshot = groupSnapshot.child("members");
 
                         if (groupName != null && membersSnapshot.hasChild(username)) {
-                            addGroupToLayout(groupSnapshot.getKey(), groupName);
+                            // Pass currentCourseName to addGroupToLayout to ensure each group gets the correct course
+                            addGroupToLayout(currentCourseName, groupSnapshot.getKey(), groupName);
                         }
                     }
                 }
@@ -83,7 +84,7 @@ public class GroupPageActivity extends AppCompatActivity {
         });
     }
 
-    private void addGroupToLayout(String groupId, String groupName) {
+    private void addGroupToLayout(String courseName, String groupId, String groupName) {
         // Create a new horizontal layout for each group entry
         LinearLayout groupLayout = new LinearLayout(GroupPageActivity.this);
         groupLayout.setLayoutParams(new LinearLayout.LayoutParams(
@@ -102,6 +103,7 @@ public class GroupPageActivity extends AppCompatActivity {
 //            TODO: change code here
             Intent studyGroupIntent = new Intent(GroupPageActivity.this, StudyGroupActivity.class);
             studyGroupIntent.putExtra("COURSE_NAME", courseName);
+            studyGroupIntent.putExtra("username", username);
             studyGroupIntent.putExtra("GROUP_ID", groupId);
             startActivity(studyGroupIntent);
         });
@@ -117,6 +119,8 @@ public class GroupPageActivity extends AppCompatActivity {
 //            TODO:find class of this group
             addMemberIntent.putExtra("GROUP_ID", groupId);
             addMemberIntent.putExtra("COURSE_NAME", courseName);
+            addMemberIntent.putExtra("username", username);
+
 
             startActivity(addMemberIntent);
         });
