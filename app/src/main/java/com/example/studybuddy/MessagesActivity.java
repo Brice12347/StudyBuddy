@@ -33,6 +33,8 @@ public class MessagesActivity extends AppCompatActivity {
     EditText ed;
     ArrayList<String> messagesList;
     ArrayAdapter<String> adapter;
+    private DatabaseReference messagesRef;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +45,25 @@ public class MessagesActivity extends AppCompatActivity {
 
         send = findViewById(R.id.Send);
         ed = findViewById(R.id.edmsg);
+
+        // Retrieve course name and group ID from Intent
+        String courseName = getIntent().getStringExtra("COURSE_NAME");
+        String groupId = getIntent().getStringExtra("GROUP_ID");
+        String username = getIntent().getStringExtra("USERNAME");
+
+
+
+        if (courseName == null || groupId == null || username == null) {
+            Toast.makeText(this, "Course or group information is missing", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+
+        // Set up Firebase reference for the group's messages
         FirebaseDatabase db = FirebaseDatabase.getInstance();
+        messagesRef = db.getReference("Courses").child(courseName).child("Groups").child(groupId).child("messages");
+
+        //FirebaseDatabase db = FirebaseDatabase.getInstance();
 //        TODO: use intent to send class name and group name.
 //       // Retrieve the groupId from the intent
 //        String groupId = getIntent().getStringExtra("groupId");
@@ -53,7 +73,7 @@ public class MessagesActivity extends AppCompatActivity {
 //        TODO:Something like this
 //        messagesRef = db.getReference("Courses/CSCI103/Groups/" + groupId + "/messages");
 
-        DatabaseReference messagesRef = db.getReference("Courses/CSCI103/Groups/103biggroup/messages");
+        //DatabaseReference messagesRef = db.getReference("Courses/CSCI103/Groups/103biggroup/messages");
         ArrayList al = new ArrayList();
         messagesList = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, messagesList);
@@ -97,12 +117,13 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
 
+        // Send button click listener to send a message
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String messageText = ed.getText().toString().trim();
                 if (!messageText.isEmpty()) {
-                    String senderId = "userId1"; // Replace with actual user ID
+                    String senderId = username; // Replace with actual user ID
                     String time = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
 
                     // Create a new message map

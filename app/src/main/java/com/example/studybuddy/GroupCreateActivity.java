@@ -37,6 +37,7 @@ public class GroupCreateActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     Course selectedCourse = null;
     Button Enterbtn;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,18 @@ public class GroupCreateActivity extends AppCompatActivity {
                 String groupId = databaseReference.child("Courses").child(selectedCourse.getCourseId()).child("Groups").push().getKey();
                 Group newGroup = new Group(groupId, groupName);
 
+                Intent init_intent = getIntent();
+                username = init_intent.getStringExtra("username");
+
+                // Add the creator to selectedUsers
+                if (username != null && !username.isEmpty()) {
+                    selectedUsers.add(username);
+                } else {
+                    Toast.makeText(GroupCreateActivity.this, "Error: Username not provided", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+
 
 
                 groupRef.setValue(newGroup).addOnCompleteListener(task -> {
@@ -79,6 +92,8 @@ public class GroupCreateActivity extends AppCompatActivity {
                         }
                         Toast.makeText(GroupCreateActivity.this, "Group created successfully!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(GroupCreateActivity.this, GroupPageActivity.class);
+                        intent.putExtra("GROUP_ID", groupId);
+                        intent.putExtra("username", username);
                         startActivity(intent);
                     } else {
 

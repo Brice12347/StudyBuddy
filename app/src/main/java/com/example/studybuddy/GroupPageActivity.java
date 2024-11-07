@@ -53,6 +53,9 @@ public class GroupPageActivity extends AppCompatActivity {
 
         findViewById(R.id.button).setOnClickListener(v -> {
             Intent intent1 = new Intent(GroupPageActivity.this, GroupCreateActivity.class);
+            intent1.putExtra("COURSE_NAME", courseName);
+            intent1.putExtra("username", username);
+            //intent1.putExtra("GROUP_ID", groupId);
             startActivity(intent1);
         });
     }
