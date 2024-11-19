@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -41,6 +42,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(!validateUsername() | !validatePassword()) {
+                    Toast.makeText(LoginActivity.this, "Did not enter username or password", Toast.LENGTH_SHORT).show();
                 } else {
                     checkUser();
                 }
