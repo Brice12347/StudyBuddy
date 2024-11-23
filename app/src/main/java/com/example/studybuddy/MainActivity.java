@@ -66,15 +66,29 @@ public class MainActivity extends AppCompatActivity {
                 reference = database.getReference("users");
 
 
-                String username = signupUsername.getEditText().getText().toString();
-                String password = signupPassword.getEditText().getText().toString();
-                String confirmPassword = signupConfirmPassword.getEditText().getText().toString();
-                String email = signupEmail.getEditText().getText().toString();
+                String username = signupUsername.getEditText().getText().toString().trim();
+                String password = signupPassword.getEditText().getText().toString().trim();
+                String confirmPassword = signupConfirmPassword.getEditText().getText().toString().trim();
+                String email = signupEmail.getEditText().getText().toString().trim();
 
                 // Check if passwords match
                 if (!password.equals(confirmPassword)) {
                     Toast.makeText(MainActivity.this, "Passwords do not match. Please try again.", Toast.LENGTH_SHORT).show();
                     return; // Exit the method if passwords don't match
+                }
+
+                if (password.length() < 3){
+                    Toast.makeText(MainActivity.this, "Password is too short. Please try again.", Toast.LENGTH_SHORT).show();
+                    return; // Exit the method if passwords don't match
+                }
+
+                if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || email.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please fill out all fields to proceed.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (selectedCourses.isEmpty()) {
+                    Toast.makeText(MainActivity.this, "Please select at least one course from the dropdown menu.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
 
                 reference.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
