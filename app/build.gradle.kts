@@ -1,11 +1,6 @@
 plugins {
     id("com.android.application")
-//    alias(libs.plugins.android.application)
-//    alias(libs.plugins.google.gms.google.services)
     id("com.google.gms.google-services")
-//    id("com.google.gms.google-services") version "4.4.2" apply false
-//    id("com.google.gms:google-services:4.4.2")
-//    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -31,6 +26,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -38,21 +34,29 @@ android {
 }
 
 dependencies {
-
-
-//    implementation(platform("com.google.firebase:firebase-database:21.0.0"))
+    // Firebase dependencies
     implementation(platform("com.google.firebase:firebase-bom:33.5.1"))
     implementation("com.google.firebase:firebase-database")
-//    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-auth")
 
+    // AndroidX dependencies
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.firebase.database)
-    implementation(libs.firebase.firestore)
-    implementation(libs.firebase.auth)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.ext.junit)
-    androidTestImplementation(libs.espresso.core)
+    implementation(libs.core)
+
+    // Unit testing dependencies
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-inline:4.11.0")
+
+    // Instrumented testing dependencies
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
+    androidTestImplementation("androidx.test:runner:1.5.2")
+    androidTestImplementation("androidx.test:rules:1.5.0")
+    androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    // For unit tests
+
 }
