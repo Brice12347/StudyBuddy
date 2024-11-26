@@ -105,6 +105,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="275dp"
             android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword|textNoSuggestions"
+            android:autofillHints="none"
+            android:importantForAutofill="no"
             android:hint="Enter your Password here!" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -134,6 +137,9 @@
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="275dp"
             android:layout_height="wrap_content"
+            android:inputType="textVisiblePassword|textNoSuggestions"
+            android:autofillHints="none"
+            android:importantForAutofill="no"
             android:hint="Confirm password" />
     </com.google.android.material.textfield.TextInputLayout>
 

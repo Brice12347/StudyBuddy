@@ -1,13 +1,17 @@
 package com.example.studybuddy;
 
 
+import static android.view.View.AUTOFILL_TYPE_NONE;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,6 +27,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -35,11 +42,18 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Course> availableCourses = new ArrayList<>();
     ArrayList<Course> selectedCourses;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            getWindow().getDecorView().setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO);
+        }
+
 
 
         selectedCourses = new ArrayList<>();
@@ -58,6 +72,8 @@ public class MainActivity extends AppCompatActivity {
         signupEmail = findViewById(R.id.registrationEmailInput);
         courseButton = findViewById(R.id.addCourseButton);
 
+//        signupPassword.getEditText().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+//        signupConfirmPassword.getEditText().setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,18 +87,19 @@ public class MainActivity extends AppCompatActivity {
                 String confirmPassword = signupConfirmPassword.getEditText().getText().toString().trim();
                 String email = signupEmail.getEditText().getText().toString().trim();
 
+
                 // Check if passwords match
                 if (!password.equals(confirmPassword)) {
                     Toast.makeText(MainActivity.this, "Passwords do not match. Please try again.", Toast.LENGTH_SHORT).show();
                     return; // Exit the method if passwords don't match
                 }
-
-                if (password.length() < 3){
+//TODO: change this to 11
+                if (password.length() < 1){
                     Toast.makeText(MainActivity.this, "Password is too short. Please try again.", Toast.LENGTH_SHORT).show();
                     return; // Exit the method if passwords don't match
                 }
 
-                if (username.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || email.isEmpty()) {
+                if (username.isEmpty() || password.isEmpty() || email.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please fill out all fields to proceed.", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -132,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 //                            TODO: change back after testing
 //                            Intent intent = new Intent(MainActivity.this, MessagesActivity.class);
                             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-
+//
                             startActivity(intent);
                         }
                     }
@@ -145,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 //                HelperClass helperClass = new HelperClass(username, password);
 //                reference.child(username).setValue(helperClass);
-//                Toast.makeText(MainActivity.this, "You have signup successfully!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(MainActivity.this, "You have signed up successfully!", Toast.LENGTH_SHORT).show();
 //                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
 //                startActivity(intent);
             }
