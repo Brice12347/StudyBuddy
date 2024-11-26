@@ -31,6 +31,8 @@
         app:layout_constraintVertical_bias="0.32">
 
         <com.google.android.material.textfield.TextInputEditText
+
+            android:id="@+id/loginUsernameField"
             android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:hint="Enter your Username here!" />
@@ -72,6 +74,7 @@
         app:layout_constraintVertical_bias="0.5">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/loginPasswordField"
             android:layout_width="275dp"
             android:layout_height="wrap_content"
             android:hint="Enter your Password here!" />

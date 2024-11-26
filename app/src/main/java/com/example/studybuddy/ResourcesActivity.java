@@ -196,7 +196,7 @@ public class ResourcesActivity extends AppCompatActivity {
     }
 
     // Method to sanitize the file name for Firebase Database
-    private String sanitizeFileName(String fileName) {
+    public String sanitizeFileName(String fileName) {
         return fileName.replace(".", "_")
                 .replace("#", "_")
                 .replace("$", "_")
@@ -206,7 +206,7 @@ public class ResourcesActivity extends AppCompatActivity {
 
 
 
-    private String getFileName(Uri uri) {
+    public String getFileName(Uri uri) {
         String result = null;
         if (uri.getScheme().equals("content")) {
             try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
