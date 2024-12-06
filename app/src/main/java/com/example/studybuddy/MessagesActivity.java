@@ -46,7 +46,7 @@ public class MessagesActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_messages);
 
-
+        selectFileButton = findViewById(R.id.selectFile);
         send = findViewById(R.id.Send);
         ed = findViewById(R.id.edmsg);
 
@@ -72,6 +72,8 @@ public class MessagesActivity extends AppCompatActivity {
 
         // Set up Firebase reference for the group's messages
         FirebaseDatabase db = FirebaseDatabase.getInstance();
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
 
         if (isDirectMessage) {
             // Check if both usernames are available for direct messages
@@ -116,6 +118,7 @@ public class MessagesActivity extends AppCompatActivity {
         loadMessages();
 
         send.setOnClickListener(view -> sendMessage());
+        selectFileButton.setOnClickListener(view -> openFileChooser());
 
         // Send button click listener to send a message
         send.setOnClickListener(new View.OnClickListener() {
@@ -154,10 +157,18 @@ public class MessagesActivity extends AppCompatActivity {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String text = snapshot.child("text").getValue(String.class);
+                String fileUrl = snapshot.child("fileUrl").getValue(String.class);
+                String fileName = snapshot.child("fileName").getValue(String.class);
                 String senderId = snapshot.child("senderId").getValue(String.class);
                 String time = snapshot.child("time").getValue(String.class);
 
-                if (text != null && senderId != null && time != null) {
+                if (fileUrl != null) {
+                    String message;
+                    message = senderId + " (" + time + "): File - " + fileName + " [Click to download]";
+                } else {
+                    message = senderId + " (" + time + "): " + text;
+                }
+                else if (text != null && senderId != null && time != null) {
                     String message = senderId + " (" + time + "): " + text;
                     messagesList.add(message);
                     adapter.notifyDataSetChanged();
@@ -192,6 +203,63 @@ public class MessagesActivity extends AppCompatActivity {
         } else {
             Toast.makeText(MessagesActivity.this, "Enter a message", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private final ActivityResultLauncher<Intent> fileChooserLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            result -> {
+                if (result.getResultCode() == RESULT_OK && result.getData() != null) {
+                    fileUri = result.getData().getData();
+                    uploadFile();
+                } else {
+                    Toast.makeText(MessagesActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+    private void openFileChooser() {
+        Intent intent = new Intent();
+        intent.setType("*/*"); // Allow all file types
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        fileChooserLauncher.launch(Intent.createChooser(intent, "Select File"));
+    }
+
+    private void uploadFile() {
+        if (fileUri != null) {
+            String fileName = System.currentTimeMillis() + "_" + getFileName(fileUri);
+            StorageReference fileRef = storageReference.child("messages/" + groupId + "/" + fileName);
+
+            fileRef.putFile(fileUri).addOnSuccessListener(taskSnapshot ->
+                    fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        sendMessageWithFile(uri.toString(), fileName);
+                    })).addOnFailureListener(e ->
+                    Toast.makeText(MessagesActivity.this, "File upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
+        }
+    }
+
+    private void sendMessageWithFile(String fileUrl, String fileName) {
+        String time = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
+        Map<String, Object> newMessage = new HashMap<>();
+        newMessage.put("fileUrl", fileUrl);
+        newMessage.put("fileName", fileName);
+        newMessage.put("senderId", username);
+        newMessage.put("time", time);
+
+        messagesRef.push().setValue(newMessage);
+    }
+
+    private String getFileName(Uri uri) {
+        String result = null;
+        if (uri.getScheme().equals("content")) {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+                if (cursor != null && cursor.moveToFirst()) {
+                    result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            }
+        }
+        if (result == null) {
+            result = uri.getLastPathSegment();
+        }
+        return result;
     }
 
 
