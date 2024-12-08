@@ -4,11 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="16sp"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Group"
+        android:text="Groups"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -27,74 +40,74 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.578">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:gravity="center">-->
 
-            <TextView
-                android:id="@+id/pretendGroup1"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Group 1" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/pretendGroup1"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="Group 1" />-->
 
-            <ImageButton
-                android:id="@+id/buttonGroup1"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="plus sign"
-                android:src="@drawable/baseline_add_24" />
+        <!--            <ImageButton-->
+        <!--                android:id="@+id/buttonGroup1"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:contentDescription="plus sign"-->
+        <!--                android:src="@drawable/baseline_add_24" />-->
 
-        </LinearLayout>
+        <!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:gravity="center">-->
 
-            <TextView
-                android:id="@+id/pretendGroup2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Group 2" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/pretendGroup2"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="Group 2" />-->
 
-            <ImageButton
-                android:id="@+id/buttonGroup2"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="plus sign"
-                android:src="@drawable/baseline_add_24" />
+        <!--            <ImageButton-->
+        <!--                android:id="@+id/buttonGroup2"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:contentDescription="plus sign"-->
+        <!--                android:src="@drawable/baseline_add_24" />-->
 
-        </LinearLayout>
+        <!--        </LinearLayout>-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:orientation="horizontal"
-            android:gravity="center">
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="30dp"-->
+        <!--            android:orientation="horizontal"-->
+        <!--            android:gravity="center">-->
 
-            <TextView
-                android:id="@+id/pretendGroup3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="Group 3" />
+        <!--            <TextView-->
+        <!--                android:id="@+id/pretendGroup3"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                android:gravity="center"-->
+        <!--                android:text="Group 3" />-->
 
-            <ImageButton
-                android:id="@+id/buttonGroup3"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:contentDescription="plus sign"
-                android:src="@drawable/baseline_add_24" />
+        <!--            <ImageButton-->
+        <!--                android:id="@+id/buttonGroup3"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:contentDescription="plus sign"-->
+        <!--                android:src="@drawable/baseline_add_24" />-->
 
-        </LinearLayout>
+        <!--        </LinearLayout>-->
 
 
 
