@@ -36,7 +36,7 @@ public class GroupCreateActivity extends AppCompatActivity {
     ArrayList<String> selectedUsers = new ArrayList<>();
     DatabaseReference databaseReference;
     Course selectedCourse = null;
-    Button Enterbtn;
+    Button Enterbtn,backButton;
     String username;
 
     @Override
@@ -54,6 +54,16 @@ public class GroupCreateActivity extends AppCompatActivity {
         addMemberBtn = findViewById(R.id.addMemberToNewGroupButton);
         databaseReference = FirebaseDatabase.getInstance().getReference();
         Enterbtn = findViewById(R.id.enterButton);
+        backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupCreateActivity.this, GroupPageActivity.class);
+                //intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+
+            }
+        });
 
         Enterbtn.setOnClickListener(new View.OnClickListener() {
             @Override
