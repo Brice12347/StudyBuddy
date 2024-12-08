@@ -15,8 +15,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.provider.CalendarContract;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +29,23 @@ public class StudyGroupActivity extends AppCompatActivity {
     private String courseName;
     private String username;
     private Context context;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.studygrouppage);
+
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(StudyGroupActivity.this, HomeActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 
         ScrollView memberListContainer = findViewById(R.id.memberListContainer);
         memberListLayout = memberListContainer.findViewById(R.id.innerMemberListLayout);
@@ -74,7 +84,7 @@ public class StudyGroupActivity extends AppCompatActivity {
         Button resourcesButton = findViewById(R.id.resourcesButton);
 
         chatBoxButton.setOnClickListener(v -> {
-            Intent chatIntent = new Intent(StudyGroupActivity.this, MessageActivity.class);
+            Intent chatIntent = new Intent(StudyGroupActivity.this, MessagesActivity.class);
             chatIntent.putExtra("COURSE_NAME", courseName);
             chatIntent.putExtra("GROUP_ID", groupId);
             chatIntent.putExtra("USERNAME", username);

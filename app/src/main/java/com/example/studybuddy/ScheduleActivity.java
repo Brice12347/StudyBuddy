@@ -1,13 +1,6 @@
 package com.example.studybuddy;
 
-import static java.security.AccessController.getContext;
 import android.Manifest;
-import android.content.pm.PackageManager;
-
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -17,19 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class ScheduleActivity extends AppCompatActivity {
 
@@ -40,6 +25,7 @@ public class ScheduleActivity extends AppCompatActivity {
     Button addEvent;
     private DatabaseReference databaseReference;
     private String calendarId;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +36,18 @@ public class ScheduleActivity extends AppCompatActivity {
         location = findViewById(R.id.eventLocation);
         description = findViewById(R.id.eventDescription);
         addEvent = findViewById(R.id.addEventBtn);
+
+
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(ScheduleActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 //        TODO:
 //        I need the user's information for this to work.
 //        what we can do is send the information using intents.

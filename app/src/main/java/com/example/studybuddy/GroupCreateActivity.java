@@ -11,13 +11,9 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,6 +33,7 @@ public class GroupCreateActivity extends AppCompatActivity {
     DatabaseReference databaseReference;
     Course selectedCourse = null;
     Button Enterbtn;
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +51,7 @@ public class GroupCreateActivity extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference();
         Enterbtn = findViewById(R.id.enterButton);
 
+
         Enterbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,8 +63,21 @@ public class GroupCreateActivity extends AppCompatActivity {
                     return;
                 }
                 DatabaseReference groupRef = databaseReference.child("Courses").child(selectedCourse.getCourseId()).child("Groups").child(groupName);
+//                THIS IS HOW YOU WOULD GET A RANDOM ID
                 String groupId = databaseReference.child("Courses").child(selectedCourse.getCourseId()).child("Groups").push().getKey();
                 Group newGroup = new Group(groupId, groupName);
+
+                Intent init_intent = getIntent();
+                username = init_intent.getStringExtra("username");
+
+                // Add the creator to selectedUsers
+                if (username != null && !username.isEmpty()) {
+                    selectedUsers.add(username);
+                } else {
+                    Toast.makeText(GroupCreateActivity.this, "Error: Username not provided", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
 
 
 
@@ -78,6 +89,8 @@ public class GroupCreateActivity extends AppCompatActivity {
                         }
                         Toast.makeText(GroupCreateActivity.this, "Group created successfully!", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(GroupCreateActivity.this, GroupPageActivity.class);
+                        intent.putExtra("GROUP_ID", groupId);
+                        intent.putExtra("username", username);
                         startActivity(intent);
                     } else {
 

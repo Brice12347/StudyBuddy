@@ -5,17 +5,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +26,7 @@ public class GroupPageActivity extends AppCompatActivity {
     private LinearLayout groupsLayout;
     private String username;
     private String courseName;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +36,18 @@ public class GroupPageActivity extends AppCompatActivity {
         Log.i("GroupPageActivity", "inside onCreate of GroupPageActivity");
 
         groupsLayout = findViewById(R.id.linearLayout);
+
+
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(GroupPageActivity.this, HomeActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 
         Intent intent = getIntent();
         username = intent.getStringExtra("username");
@@ -194,6 +204,6 @@ public class GroupPageActivity extends AppCompatActivity {
 //        startActivity(intent);
 //    }
 
+    }
 
 
-}

@@ -2,15 +2,13 @@ package com.example.studybuddy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,6 +20,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private DatabaseReference userRef;
     private LinearLayout coursesLayout;
+    private Button homeBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +28,7 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.landing_page);
 
         coursesLayout = findViewById(R.id.linearLayout);
+        homeBtn = findViewById(R.id.homeScreenButton);
 
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
@@ -39,7 +39,17 @@ public class LandingPageActivity extends AppCompatActivity {
 
         // Fetch and display enrolled courses
         loadEnrolledCourses();
+
+        homeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LandingPageActivity.this, HomeActivity.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
+            }
+        });
     }
+
 
     private void loadEnrolledCourses() {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
