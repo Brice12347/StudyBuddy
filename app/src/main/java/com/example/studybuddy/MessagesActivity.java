@@ -70,14 +70,7 @@ public class MessagesActivity extends AppCompatActivity {
 
         // Initialize Back Button
         backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(MessagesActivity.this, StudyGroupActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
         // Retrieve course name and group ID from Intent
         //String courseName = getIntent().getStringExtra("COURSE_NAME");
@@ -98,6 +91,17 @@ public class MessagesActivity extends AppCompatActivity {
         storageReference = storage.getReference();
 
         selectFileButton = findViewById(R.id.selectFile);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MessagesActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username"));
+                intent.putExtra("COURSE_NAME",courseName);
+                intent.putExtra("GROUP_ID",groupId);
+                startActivity(intent);
+                finish();
+            }
+        });
 
 
 

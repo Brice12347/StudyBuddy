@@ -59,7 +59,7 @@ public class GroupCreateActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(GroupCreateActivity.this, GroupPageActivity.class);
-                //intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
                 startActivity(intent);
 
             }

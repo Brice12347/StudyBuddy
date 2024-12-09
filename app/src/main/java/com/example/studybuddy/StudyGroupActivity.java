@@ -37,14 +37,7 @@ public class StudyGroupActivity extends AppCompatActivity {
         setContentView(R.layout.studygrouppage);
         // Initialize Back Button
         backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(StudyGroupActivity.this, HomeActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
         ScrollView memberListContainer = findViewById(R.id.memberListContainer);
         memberListLayout = memberListContainer.findViewById(R.id.innerMemberListLayout);
@@ -89,6 +82,18 @@ public class StudyGroupActivity extends AppCompatActivity {
             chatIntent.putExtra("USERNAME", username);
             startActivity(chatIntent);
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(StudyGroupActivity.this, GroupPageActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username"));
+                intent.putExtra("COURSE_NAME", courseName);
+                intent.putExtra("GROUP_ID",groupId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         //groupCalendarButton.setOnClickListener(v -> startActivity(new Intent(StudyGroupActivity.this, ResourcesActivity.class)));
         groupCalendarButton.setOnClickListener(v -> openGoogleCalendar());
         addNewSessionsButton.setOnClickListener(v -> {

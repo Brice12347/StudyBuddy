@@ -44,7 +44,7 @@ public class newGroupActivity extends AppCompatActivity {
                 Intent intent = new Intent(newGroupActivity.this, GroupPageActivity.class);
                 intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
                 startActivity(intent);
-                finish();
+//                finish();
             }
         });
 

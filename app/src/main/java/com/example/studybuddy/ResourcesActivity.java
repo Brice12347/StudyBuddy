@@ -41,17 +41,11 @@ public class ResourcesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resource);
 //TODO:WE HAVE TO SAVE THE SOUL SOCIETY
-        backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(ResourcesActivity.this, StudyGroupActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
-                finish();
-            }
-        });
+
+
 
         Intent init_intent = getIntent();
+//
         courseName = init_intent.getStringExtra("COURSE_NAME");
         groupId = init_intent.getStringExtra("GROUP_ID");
         Log.i("DATA", "Course Name is: " + courseName);
@@ -97,6 +91,7 @@ public class ResourcesActivity extends AppCompatActivity {
         Button viewLectureNotesButton = findViewById(R.id.viewLectureNotesButton);
         Button viewPracticeExamsButton = findViewById(R.id.viewPracticeExamsButton);
         Button viewProjectHelpButton = findViewById(R.id.viewProjectHelpButton);
+        backButton = findViewById(R.id.backButton);
 
         searchBar = findViewById(R.id.searchBar);
 
@@ -131,6 +126,17 @@ public class ResourcesActivity extends AppCompatActivity {
 
             startActivity(intent);
             return true;
+        });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(ResourcesActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username"));
+                intent.putExtra("COURSE_NAME",courseName);
+                intent.putExtra("GROUP_ID",groupId);
+                startActivity(intent);
+                finish();
+            }
         });
 
     }
@@ -239,4 +245,3 @@ public class ResourcesActivity extends AppCompatActivity {
 }
 
 
-}

@@ -57,20 +57,14 @@ public class ScheduleActivity extends AppCompatActivity {
         location = findViewById(R.id.eventLocation);
         description = findViewById(R.id.eventDescription);
         addEvent = findViewById(R.id.addEventBtn);
+        backButton = findViewById(R.id.backButton);
 //        TODO: SAVE THE SOCIETY
 //        TODO: ADD TO putExtra
 
 
         // Initialize Back Button
-        backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(ScheduleActivity.this, StudyGroupActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
-                finish();
-            }
-        });
+
+
 //
 //        I need the user's information for this to work.
 //        what we can do is send the information using intents.
@@ -111,6 +105,17 @@ public class ScheduleActivity extends AppCompatActivity {
                     Manifest.permission.WRITE_CALENDAR, Manifest.permission.READ_CALENDAR
             }, CALENDAR_PERMISSION_CODE);
         }
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(ScheduleActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                intent.putExtra("COURSE_NAME",getIntent().getStringExtra("COURSE_NAME"));
+                intent.putExtra("GROUP_ID",groupId);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
