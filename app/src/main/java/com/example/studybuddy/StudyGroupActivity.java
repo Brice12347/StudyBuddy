@@ -29,11 +29,22 @@ public class StudyGroupActivity extends AppCompatActivity {
     private String groupId;
     private String courseName;
     private String username;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.studygrouppage);
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(StudyGroupActivity.this, HomeActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 
         ScrollView memberListContainer = findViewById(R.id.memberListContainer);
         memberListLayout = memberListContainer.findViewById(R.id.innerMemberListLayout);
@@ -99,7 +110,7 @@ public class StudyGroupActivity extends AppCompatActivity {
         loadGroupMembers();
     }
 
-    private void loadGroupMembers() {
+    public void loadGroupMembers() {
         groupRef.child("members").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

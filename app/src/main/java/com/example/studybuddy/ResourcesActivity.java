@@ -34,11 +34,22 @@ public class ResourcesActivity extends AppCompatActivity {
     private String category;
     private EditText searchBar;
     private String courseName;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.resource);
+//TODO:WE HAVE TO SAVE THE SOUL SOCIETY
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(ResourcesActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 
         Intent init_intent = getIntent();
         courseName = init_intent.getStringExtra("COURSE_NAME");
@@ -223,6 +234,9 @@ public class ResourcesActivity extends AppCompatActivity {
         }
         return result;
     }
+
+
+}
 
 
 }

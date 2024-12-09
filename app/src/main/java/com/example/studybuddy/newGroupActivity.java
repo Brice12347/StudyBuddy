@@ -23,6 +23,8 @@ import java.util.ArrayList;
 public class newGroupActivity extends AppCompatActivity {
     FloatingActionButton addMemberFunction;
     Button enterButton;
+    Button backButton;
+    Button groupPageButton;
     Course currCourse;
     String courseName;
     String groupName;
@@ -36,6 +38,16 @@ public class newGroupActivity extends AppCompatActivity {
         addMemberFunction = findViewById(R.id.addMemberButton);
         enterButton = findViewById(R.id.enterButton);
 
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(newGroupActivity.this, GroupPageActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
+
         Intent intent = getIntent();
         courseName = intent.getStringExtra("COURSE_NAME");
         groupName = intent.getStringExtra("GROUP_ID");
@@ -43,6 +55,7 @@ public class newGroupActivity extends AppCompatActivity {
 //        currCourse = new Course();
 //        currCourse.setCourseName(courseName);
         addMemberFunction.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Log.i("DATA","is group addMemberFunction clicked " + groupName);

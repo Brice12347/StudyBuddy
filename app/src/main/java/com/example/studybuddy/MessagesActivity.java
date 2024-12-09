@@ -56,6 +56,7 @@ public class MessagesActivity extends AppCompatActivity {
     private Map<String, String> fileUrls; // Maps file name to URL
     private Uri fileUri;
 
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,17 @@ public class MessagesActivity extends AppCompatActivity {
 
         send = findViewById(R.id.Send);
         ed = findViewById(R.id.edmsg);
+
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(MessagesActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 
         // Retrieve course name and group ID from Intent
         //String courseName = getIntent().getStringExtra("COURSE_NAME");

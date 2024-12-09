@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class HomeActivity extends AppCompatActivity {
 
     private TextView userNameText;
-    private Button myGroupsButton, logoutButton;
+    private Button myGroupsButton, logoutButton, backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +22,7 @@ public class HomeActivity extends AppCompatActivity {
         userNameText = findViewById(R.id.userNameText);
         myGroupsButton = findViewById(R.id.myGroupsButton);
         logoutButton = findViewById(R.id.logoutButton);
+        backButton = findViewById(R.id.backButton);
 
         // Get the username from the intent
         String username = getIntent().getStringExtra("username");
@@ -50,5 +51,16 @@ public class HomeActivity extends AppCompatActivity {
                 finish(); // Finish current activity
             }
         });
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(HomeActivity.this, LandingPageActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish(); // End HomeActivity
+            }
+        });
+
     }
 }

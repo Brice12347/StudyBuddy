@@ -46,6 +46,7 @@ public class ScheduleActivity extends AppCompatActivity {
     private String groupId;
     private String groupName;
     private ArrayList<String> inviteesList;
+    private Button backButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,21 @@ public class ScheduleActivity extends AppCompatActivity {
         location = findViewById(R.id.eventLocation);
         description = findViewById(R.id.eventDescription);
         addEvent = findViewById(R.id.addEventBtn);
-//        TODO:
+//        TODO: SAVE THE SOCIETY
+//        TODO: ADD TO putExtra
+
+
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(ScheduleActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
+//
 //        I need the user's information for this to work.
 //        what we can do is send the information using intents.
 //        databaseReference = FirebaseDatabase.getInstance().getReference("Courses/Course1/Groups/Group1/calendarId");

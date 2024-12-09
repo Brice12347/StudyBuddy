@@ -8,6 +8,21 @@
     android:padding="16dp"
     tools:context=".ResourcesActivity">
 
+    <!-- Back Button -->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back"
+        android:textSize="16sp"
+        android:padding="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp" />
+
+
+
     <!-- Title -->
     <TextView
         android:id="@+id/resourcesTitle"

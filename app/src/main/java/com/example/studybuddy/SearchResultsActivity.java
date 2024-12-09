@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -34,6 +35,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private ArrayList<String> fileNames;
     private Map<String, String> fileUrls;
     private String groupId; // Pass this dynamically if required
+    private Button backButton;
 
 
     @Override
@@ -44,6 +46,17 @@ public class SearchResultsActivity extends AppCompatActivity {
         searchResultsListView = findViewById(R.id.searchResultsListView);
         fileNames = new ArrayList<>();
         fileUrls = new HashMap<>();
+//TODO:SAVE THE SOUL SOCIETY
+        // Initialize Back Button
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchResultsActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+                finish();
+            }
+        });
 
         String searchTerm = getIntent().getStringExtra("searchTerm");
         groupId = getIntent().getStringExtra("GROUP_ID");

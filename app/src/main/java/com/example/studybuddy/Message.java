@@ -1,33 +1,34 @@
 package com.example.studybuddy;
-import java.util.Date;
 
 public class Message {
-    public User sender;
-    public String content;
+    private String content;
+    private String senderID;  // Use senderID instead of a full User object to simplify
     private long timestamp;
     private String messageID;
-    // Correct: declared the timestamp field
 
     // Constructor
-    public Message(String messageID, User sender, String content){
-        this.sender = sender;
+    public Message(String messageID, String senderID, String content) {
+        this.senderID = senderID;
         this.content = content;
         this.messageID = messageID;
-        this.timestamp = System.currentTimeMillis();  // Moved initialization into the constructor
+        this.timestamp = System.currentTimeMillis();
     }
 
-    // Get the sender
-    public User getSender() {
-        return sender;
+    public String getSenderID() {
+        return senderID;
     }
 
-    // Get the content of the message
     public String getContent() {
         return content;
     }
 
-    // Get the current timestamp
-    public long getTimeStamp() {
-        return timestamp;  // Ensure the field name matches
+    public long getTimestamp() {
+        return timestamp;
     }
+
+    public String getMessageID() {
+        return messageID;
+    }
+
+
 }
