@@ -47,12 +47,14 @@ public class LoginActivity extends AppCompatActivity {
 
         // Initialize Back Button
         backButton = findViewById(R.id.backButton);
+
+
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
                 startActivity(intent);
-                finish();
+                //finish();
             }
         });
 

@@ -75,7 +75,7 @@ public class MessagesActivity extends AppCompatActivity {
         // Retrieve course name and group ID from Intent
         //String courseName = getIntent().getStringExtra("COURSE_NAME");
         //String groupId = getIntent().getStringExtra("GROUP_ID");
-        username = getIntent().getStringExtra("USERNAME");
+        username = getIntent().getStringExtra("username");
         isDirectMessage = getIntent().getBooleanExtra("IS_DIRECT_MESSAGE", false);
         otherUser = getIntent().getStringExtra("OTHER_USER");
         courseName = getIntent().getStringExtra("COURSE_NAME");
@@ -96,8 +96,11 @@ public class MessagesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MessagesActivity.this, StudyGroupActivity.class);
                 intent.putExtra("username", getIntent().getStringExtra("username"));
+                Log.i("DATA", "[MessagesActivity] username is: " + username);
                 intent.putExtra("COURSE_NAME",courseName);
-                intent.putExtra("GROUP_ID",groupId);
+                Log.i("DATA", "[StudyGroupActivity] Course Name is: " + courseName);
+                intent.putExtra("GROUP_ID", groupId);
+                Log.i("DATA", "[StudyGroupActivity] Group Name is: " + groupId);
                 startActivity(intent);
                 finish();
             }
@@ -172,7 +175,9 @@ public class MessagesActivity extends AppCompatActivity {
                 String url = fileUrls.get(fileName);
 
                 if (url != null) {
+
                     downloadFile(fileName, url);
+                    openUrlInBrowser(url);
                 } else {
                     Toast.makeText(this, "File URL not found", Toast.LENGTH_SHORT).show();
                 }
@@ -213,6 +218,11 @@ public class MessagesActivity extends AppCompatActivity {
         int startIndex = message.indexOf("File - ") + 7;
         int endIndex = message.indexOf(" [Click to download]");
         return message.substring(startIndex, endIndex).trim();
+    }
+
+    private void openUrlInBrowser(String url) {
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        startActivity(browserIntent);
     }
 //
 //
@@ -310,7 +320,9 @@ public class MessagesActivity extends AppCompatActivity {
                 if (fileName != null && fileUrl != null && senderId != null && time != null) {
                     // It's a file message
                     String message = "File - " + fileName + " [Click to download]";
+
                     messagesList.add(message);
+
                     fileUrls.put(fileName, fileUrl); // Store file name and URL for downloads
                 } else if (text != null && senderId != null && time != null) {
                     // It's a regular text message

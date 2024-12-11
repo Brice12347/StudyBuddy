@@ -34,6 +34,7 @@ public class ResourcesActivity extends AppCompatActivity {
     private String category;
     private EditText searchBar;
     private String courseName;
+    private String username;
     private Button backButton;
 
     @Override
@@ -45,14 +46,17 @@ public class ResourcesActivity extends AppCompatActivity {
 
 
         Intent init_intent = getIntent();
+
+        username = init_intent.getStringExtra("username");
 //
         courseName = init_intent.getStringExtra("COURSE_NAME");
         groupId = init_intent.getStringExtra("GROUP_ID");
-        Log.i("DATA", "Course Name is: " + courseName);
-        Log.i("DATA", "Group_ID is: " + groupId);
+        Log.i("DATA", "[ResourcesActivity] User Name is: " + username);
+        Log.i("DATA", "[ResourcesActivity] Course Name is: " + courseName);
+        Log.i("DATA", "[ResourcesActivity] Group_ID is: " + groupId);
 
-        if (courseName == null || groupId == null) {
-            Toast.makeText(this, "Missing course name or group ID", Toast.LENGTH_SHORT).show();
+        if (courseName == null || groupId == null || username == null) {
+            Toast.makeText(this, "Missing course name or group ID or username", Toast.LENGTH_SHORT).show();
             finish();
             return;
         }
@@ -122,6 +126,8 @@ public class ResourcesActivity extends AppCompatActivity {
             Intent intent = new Intent(ResourcesActivity.this, SearchResultsActivity.class);
             intent.putExtra("searchTerm", searchTerm);
             intent.putExtra("GROUP_ID", groupId);
+            intent.putExtra("username", username);
+            intent.putExtra("COURSE_NAME", courseName);
             intent.putExtra("category", category);
 
             startActivity(intent);
@@ -131,7 +137,7 @@ public class ResourcesActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 Intent intent = new Intent(ResourcesActivity.this, StudyGroupActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username"));
+                intent.putExtra("username", username);
                 intent.putExtra("COURSE_NAME",courseName);
                 intent.putExtra("GROUP_ID",groupId);
                 startActivity(intent);
@@ -160,6 +166,8 @@ public class ResourcesActivity extends AppCompatActivity {
         Intent intent = new Intent(ResourcesActivity.this, FileListActivity.class);
         intent.putExtra("groupId", groupId);
         intent.putExtra("category", category);
+        intent.putExtra("username", username);
+        intent.putExtra("COURSE_NAME",courseName);
         startActivity(intent);
     }
 

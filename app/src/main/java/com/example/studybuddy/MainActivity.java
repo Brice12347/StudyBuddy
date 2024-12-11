@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+        //FirebaseDatabase.getInstance().setPersistenceEnabled(true);
 
 
         selectedCourses = new ArrayList<>();

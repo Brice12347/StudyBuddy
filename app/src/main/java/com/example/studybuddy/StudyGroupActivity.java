@@ -52,9 +52,9 @@ public class StudyGroupActivity extends AppCompatActivity {
         groupId = intent.getStringExtra("GROUP_ID");
         username = intent.getStringExtra("username");
 
-        Log.i("DATA", "Course Name is: " + courseName);
-        Log.i("DATA", "Group_ID is: " + groupId);
-        Log.i("DATA", "Username: " + username);
+        Log.i("DATA", "[StudyGroupActivity] Course Name is: " + courseName);
+        Log.i("DATA", "[StudyGroupActivity] Group_ID is: " + groupId);
+        Log.i("DATA", "[StudyGroupActivity] username: " + username);
 
         // Ensure groupId is not null
         if (groupId == null) {
@@ -79,7 +79,7 @@ public class StudyGroupActivity extends AppCompatActivity {
             Intent chatIntent = new Intent(StudyGroupActivity.this, MessagesActivity.class);
             chatIntent.putExtra("COURSE_NAME", courseName);
             chatIntent.putExtra("GROUP_ID", groupId);
-            chatIntent.putExtra("USERNAME", username);
+            chatIntent.putExtra("username", username);
             startActivity(chatIntent);
         });
 
@@ -100,14 +100,14 @@ public class StudyGroupActivity extends AppCompatActivity {
             Intent scheduleIntent = new Intent(StudyGroupActivity.this, ScheduleActivity.class);
             scheduleIntent.putExtra("COURSE_NAME", courseName);
             scheduleIntent.putExtra("GROUP_ID", groupId);
-            scheduleIntent.putExtra("USERNAME", username);
+            scheduleIntent.putExtra("username", username);
             startActivity(scheduleIntent);
         });
         resourcesButton.setOnClickListener(v -> {
             Intent resourcesIntent = new Intent(StudyGroupActivity.this, ResourcesActivity.class);
             resourcesIntent.putExtra("COURSE_NAME", courseName);
             resourcesIntent.putExtra("GROUP_ID", groupId);
-            resourcesIntent.putExtra("USERNAME", username);
+            resourcesIntent.putExtra("username", username);
             startActivity(resourcesIntent);
         });
 
@@ -156,7 +156,10 @@ public class StudyGroupActivity extends AppCompatActivity {
             Intent dmIntent = new Intent(StudyGroupActivity.this, MessagesActivity.class);
             dmIntent.putExtra("IS_DIRECT_MESSAGE", true); // Flag to differentiate between group and direct messages
             dmIntent.putExtra("OTHER_USER", memberName); // The user to chat with
-            dmIntent.putExtra("USERNAME", username); // The current user's username
+            dmIntent.putExtra("username", username); // The current user's username
+            dmIntent.putExtra("COURSE_NAME", courseName);
+            dmIntent.putExtra("GROUP_ID", groupId);
+            //dmIntent.putExtra("username", username);
             startActivity(dmIntent);
         });
 

@@ -36,6 +36,7 @@ public class SearchResultsActivity extends AppCompatActivity {
     private Map<String, String> fileUrls;
     private String groupId; // Pass this dynamically if required
     private Button backButton;
+    private String courseName;
 
 
     @Override
@@ -48,18 +49,11 @@ public class SearchResultsActivity extends AppCompatActivity {
         fileUrls = new HashMap<>();
 //TODO:SAVE THE SOUL SOCIETY
         // Initialize Back Button
-        backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(SearchResultsActivity.this, StudyGroupActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
         String searchTerm = getIntent().getStringExtra("searchTerm");
         groupId = getIntent().getStringExtra("GROUP_ID");
+        courseName = getIntent().getStringExtra("COURSE_NAME");
 
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Resources").child(groupId);
@@ -84,6 +78,19 @@ public class SearchResultsActivity extends AppCompatActivity {
                 Toast.makeText(this, "URL not found for selected file", Toast.LENGTH_SHORT).show();
             }
         });
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(SearchResultsActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                intent.putExtra("COURSE_NAME", courseName);
+                intent.putExtra("GROUP_ID",groupId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private void searchFiles(String searchTerm) {

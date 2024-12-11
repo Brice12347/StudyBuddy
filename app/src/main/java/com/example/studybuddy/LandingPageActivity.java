@@ -20,7 +20,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private DatabaseReference userRef;
     private LinearLayout coursesLayout;
-    private Button homeBtn;
+    private Button homeBtn, logoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +29,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
         coursesLayout = findViewById(R.id.linearLayout);
         homeBtn = findViewById(R.id.homeScreenButton);
+        logoutButton = findViewById(R.id.logoutButton);
 
         Intent intent = getIntent();
         String username = intent.getStringExtra("username");
@@ -48,6 +49,18 @@ public class LandingPageActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LandingPageActivity.this, LoginActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+                finish(); // Finish current activity
+            }
+        });
+
+
     }
 
 

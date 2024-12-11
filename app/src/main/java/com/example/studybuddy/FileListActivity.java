@@ -32,6 +32,7 @@ public class FileListActivity extends AppCompatActivity {
     private ArrayList<String> fileNames;
     private Map<String, String> fileUrls; // Maps file name to URL
     private String groupId;
+    private String courseName;
     private String category;
     private Button backButton;
 
@@ -41,21 +42,14 @@ public class FileListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_file_list);
 
         // Initialize Back Button
-        backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(FileListActivity.this, StudyGroupActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
-                finish();
-            }
-        });
+
 
         fileListView = findViewById(R.id.fileListView);
         fileNames = new ArrayList<>();
         fileUrls = new HashMap<>();
 
         // Get groupId and category from intent
+        courseName = getIntent().getStringExtra("COURSE_NAME");
         groupId = getIntent().getStringExtra("groupId");
         category = getIntent().getStringExtra("category");
 
@@ -80,6 +74,19 @@ public class FileListActivity extends AppCompatActivity {
                 Toast.makeText(this, "URL not found for selected file", Toast.LENGTH_SHORT).show();
             }
         });
+
+        backButton = findViewById(R.id.backButton);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(FileListActivity.this, StudyGroupActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                intent.putExtra("COURSE_NAME", courseName);
+                intent.putExtra("GROUP_ID",groupId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private void fetchFiles() {
