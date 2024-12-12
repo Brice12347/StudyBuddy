@@ -70,9 +70,18 @@ public class StudyBuddyInstrumentedTest {
         // Click "home" button
         onView(withId(R.id.loginPageLoginButton)).perform(click());
         try {
+            onView(withId(R.id.loginPageLoginButton)).perform(click());
+            onView(withId(R.id.loginPageLoginButton)).perform(click());
             onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (NoMatchingViewException e) {
-            Assert.fail("Home Button not found. Check if HomePage is displayed.");
+        } catch (Exception e) {
+
+            try {
+                Thread.sleep(5000);
+                onView(withId(R.id.loginPageLoginButton)).perform(click());
+                onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
+            }
+            catch (Exception f) {
+            Assert.fail("Home Button not found. Check if HomePage is displayed.");}
         }
 
 

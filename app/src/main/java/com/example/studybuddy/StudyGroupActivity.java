@@ -25,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 public class StudyGroupActivity extends AppCompatActivity {
 
     private DatabaseReference groupRef;
-    private LinearLayout memberListLayout;
+    public LinearLayout memberListLayout;
     private String groupId;
     private String courseName;
     private String username;
@@ -144,7 +144,7 @@ public class StudyGroupActivity extends AppCompatActivity {
         }
     }
 
-    private void addMemberToList(String memberName) {
+    public void addMemberToList(String memberName) {
         // Create a button for each member
         Button memberButton = new Button(this);
         memberButton.setText(memberName);

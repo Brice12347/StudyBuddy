@@ -16,8 +16,12 @@ public class FileSearchUtilsTest {
     }
 
     @Test
-    public void testIsSearchTermInFileName_NullInputs() {
+    public void testIsSearchTermInFileName_NullInputs_1() {
         assertFalse(FileSearchUtils.isSearchTermInFileName(null, "exam"));
+    }
+
+    @Test
+    public void testIsSearchTermInFileName_NullInputs_2() {
         assertFalse(FileSearchUtils.isSearchTermInFileName("lecture_notes.pdf", null));
     }
 }
