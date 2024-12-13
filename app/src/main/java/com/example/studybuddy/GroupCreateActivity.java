@@ -56,12 +56,17 @@ public class GroupCreateActivity extends AppCompatActivity {
         Enterbtn = findViewById(R.id.enterButton);
         backButton = findViewById(R.id.backButton);
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                Intent intent = new Intent(GroupCreateActivity.this, GroupPageActivity.class);
-                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
-                startActivity(intent);
 
+        addMemberBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (selectedCourse == null) {
+                    // Warn the user if no class is selected
+                    Toast.makeText(GroupCreateActivity.this, "Please select a class before adding members.", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Show users in the selected course
+                    showUserMenu(selectedCourse.getCourseId());
+                }
             }
         });
 
@@ -115,7 +120,10 @@ public class GroupCreateActivity extends AppCompatActivity {
             }
         });
 
-        selectClassBtn.setOnClickListener(new View.OnClickListener() {
+
+
+        selectClassBtn.setOnClickListener(new View.OnClickListener()
+        {
 
             @Override
             public void onClick(View view) {
@@ -124,18 +132,23 @@ public class GroupCreateActivity extends AppCompatActivity {
             }
         });
 
-        addMemberBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
+        backButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                if (selectedCourse == null) {
-                    // Warn the user if no class is selected
-                    Toast.makeText(GroupCreateActivity.this, "Please select a class before adding members.", Toast.LENGTH_SHORT).show();
-                } else {
-                    // Show users in the selected course
-                    showUserMenu(selectedCourse.getCourseId());
-                }
+                Intent intent = new Intent(GroupCreateActivity.this, GroupPageActivity.class);
+                intent.putExtra("username", getIntent().getStringExtra("username")); // Pass username
+                startActivity(intent);
+
             }
         });
+
+
+
+
+
+
+
+
+
 
 
     }
@@ -165,7 +178,8 @@ public class GroupCreateActivity extends AppCompatActivity {
                     }
                 }
 
-                userPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                userPopupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+                {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         String selectedUser = item.getTitle().toString();
