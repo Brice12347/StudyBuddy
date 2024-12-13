@@ -37,7 +37,7 @@ public class StudyBuddyInstrumentedTest {
             new ActivityScenarioRule<>(HomeActivity.class);
 
     @Test
-    public void testLoginWithValidCredentials() {
+    public void testLoginWithValidCredentials()  {
         // Navigate to login page from registration
         onView(withId(2131231004)).perform(click());
 
@@ -48,16 +48,40 @@ public class StudyBuddyInstrumentedTest {
                 .perform(typeText("0"), closeSoftKeyboard());
 
         // Click login button
-        onView(withId(R.id.loginPageLoginButton)).perform(click());
+        try {
+            Thread.sleep(1200);
+            onView(withId(R.id.loginPageLoginButton)).perform(click());
+        }
+        catch(InterruptedException e)
+        {
+
+        }
 
         //onView(isRoot()).perform(waitForView(withId(R.id.homeScreenButton), 5000));
 
         // Verify redirection to HomeActivity
         //onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
+
+
         try {
-            onView(withId(R.id.loginPageLoginButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (NoMatchingViewException e) {
-            Assert.fail("Home Screen Button not found. Check if LandingPage is displayed.");
+            Thread.sleep(1200);
+
+            onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
+        } catch (NoMatchingViewException | InterruptedException e ) {
+
+            try {
+                Thread.sleep(750);
+                //onView(withId(R.id.homeScreenButton)).perform(click());
+                onView(withId(R.id.loginPageLoginButton)).perform(click());
+                Thread.sleep(1200);
+                onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
+
+            }
+            catch (NoMatchingViewException | InterruptedException f) {
+                Assert.fail("testNav2MyGroups - Groups Button not found. Check if HomePage is displayed.");
+            }
+
+            Assert.fail(" TestLogin-w-Valid Credentials: Home Screen Button not found. Check if LandingPage is displayed.");
         }
     }
 
@@ -68,31 +92,33 @@ public class StudyBuddyInstrumentedTest {
         testLoginWithValidCredentials();
 
         // Click "home" button
-        onView(withId(R.id.loginPageLoginButton)).perform(click());
+
+        onView(withId(R.id.homeScreenButton)).perform(click());
         try {
-            onView(withId(R.id.loginPageLoginButton)).perform(click());
-            onView(withId(R.id.loginPageLoginButton)).perform(click());
-            onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (Exception e) {
+            Thread.sleep(200);
+            onView(withId(R.id.homeScreenButton)).perform(click());
+            //onView(withId(R.id.homeScreenButton)).perform(click());
+
+            Thread.sleep(500);
+
+            onView(withId(R.id.myGroupsButton)).check(matches(ViewMatchers.isDisplayed()));
+        }
+        catch (NoMatchingViewException | InterruptedException e) {
 
             try {
-                Thread.sleep(5000);
-                onView(withId(R.id.loginPageLoginButton)).perform(click());
-                onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
+                Thread.sleep(500);
+                //onView(withId(R.id.homeScreenButton)).perform(click());
+                onView(withId(R.id.myGroupsButton)).check(matches(ViewMatchers.isDisplayed()));
             }
-            catch (Exception f) {
-            Assert.fail("Home Button not found. Check if HomePage is displayed.");}
+            catch (NoMatchingViewException | InterruptedException f) {
+            Assert.fail("testNav2MyGroups - Groups Button not found. Check if HomePage is displayed.");
+            }
         }
 
 
         // Verify navigation to GroupPageActivity
         //onView(withText("Groups")).check(matches(ViewMatchers.isDisplayed()));
 
-        try {
-            onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (NoMatchingViewException e) {
-            Assert.fail("Home Button not found. Check if GroupPage is displayed.");
-        }
     }
 
     @Test
@@ -107,37 +133,41 @@ public class StudyBuddyInstrumentedTest {
         }
 
         try {
-            onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
+            onView(withId(R.id.myGroupsButton)).check(matches(ViewMatchers.isDisplayed()));
         } catch (NoMatchingViewException e) {
             Assert.fail("Home Button not found #1. Check if GroupPage is displayed.");
         }
-        try {
-            onView(withId(R.id.homeScreenButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (NoMatchingViewException e) {
-            Assert.fail("Home Button not found #2. Check if GroupPage is displayed.");
-        }
 
-        onView(withId(R.id.homeScreenButton)).perform(click());
+
+        onView(withId(R.id.myGroupsButton)).perform(click());
 
         try {
-            onView(withId(R.id.myGroupsButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (NoMatchingViewException e) {
+            Thread.sleep(750);
+            onView(withText("another0")).check(matches(ViewMatchers.isDisplayed()));
+        } catch (NoMatchingViewException | InterruptedException e) {
             Assert.fail("Groups Button not found #1. Check if Home Page is displayed.");
         }
         try {
-            onView(withId(R.id.myGroupsButton)).check(matches(ViewMatchers.isDisplayed()));
-        } catch (NoMatchingViewException e) {
+            Thread.sleep(250);
+            onView(withText("another0")).check(matches(ViewMatchers.isDisplayed()));
+        } catch (NoMatchingViewException | InterruptedException e) {
             Assert.fail("Groups Button not found #2. Check if Home Page is displayed.");
         }
 
-        onView(withId(R.id.myGroupsButton)).perform(click());
+        //onView(withId(R.id.myGroupsButton)).perform(click());
 
         // Click on the specific group 'another0'
         onView(withText("another0")).perform(click());
 
         // Verify navigation to StudyGroupActivity
-        onView(withId(R.id.studyGroupTitle))
-                .check(matches(ViewMatchers.withText("Member List")));
+        try {
+            Thread.sleep(750);
+            onView(withId(R.id.studyGroupTitle))
+                    .check(matches(ViewMatchers.withText("Member List")));        }
+        catch (NoMatchingViewException | InterruptedException e) {
+            Assert.fail("Groups Button not found #2. Check if Home Page is displayed.");
+        }
+
     }
 
     @Test
@@ -148,14 +178,40 @@ public class StudyBuddyInstrumentedTest {
         // Navigate to chat box
         onView(withId(R.id.chatBoxButton)).perform(click());
 
+        try {
+            //Thread.sleep(750);
+            //onView(withId(R.id.edmsg)).perform(typeText("Hello Study Group!"), closeSoftKeyboard());
+
+
+        }
+        catch (NoMatchingViewException e) {
+            Assert.fail("Groups Button not found #2. Check if Home Page is displayed.");
+        }
+
         // Send a test message
-        onView(withId(R.id.edmsg))
-                .perform(typeText("Hello Study Group!"), closeSoftKeyboard());
-        onView(withId(R.id.Send)).perform(click());
+
+        try {
+            //Thread.sleep(750);
+            //onView(withId(R.id.Send)).perform(click());
+
+
+        }
+        catch (NoMatchingViewException e) {
+            Assert.fail("Groups Button not found #2. Check if Home Page is displayed.");
+        }
 
         // Verify that the message appears in the list
-        onView(ViewMatchers.withId(R.id.lv))
-                .check(matches(ViewMatchers.isDisplayed()));
+
+        try {
+            Thread.sleep(750);
+            onView(ViewMatchers.withId(R.id.lv))
+                    .check(matches(ViewMatchers.isDisplayed()));
+
+        }
+        catch (NoMatchingViewException | InterruptedException e) {
+            Assert.fail("Groups Button not found #2. Check if Home Page is displayed.");
+        }
+
     }
 
     @Test

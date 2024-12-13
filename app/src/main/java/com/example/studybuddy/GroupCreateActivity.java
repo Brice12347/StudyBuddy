@@ -140,36 +140,6 @@ public class GroupCreateActivity extends AppCompatActivity {
 
     }
 
-    private void showCourseMenu(View view) {
-        PopupMenu popupMenu = new PopupMenu(this, view);
-        selectedUsers.clear();
-
-        // Populate the menu with hard-coded courses
-        for (Course course : availableCourses) {
-            popupMenu.getMenu().add(course.getCourseName());
-        }
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                String selectedCourseName = item.getTitle().toString();
-
-                // Find the selected course object based on course name
-                for (Course course : availableCourses) {
-                    if (course.getCourseName().equals(selectedCourseName)) {
-                        selectedCourse = course;
-                        break;
-                    }
-                }
-
-                Toast.makeText(GroupCreateActivity.this, "Selected: " + selectedCourseName, Toast.LENGTH_SHORT).show();
-                return true;
-            }
-        });
-
-        popupMenu.show();
-    }
-
     private void showUserMenu(String courseCode) {
         PopupMenu userPopupMenu = new PopupMenu(this, addMemberBtn);
 
@@ -215,6 +185,47 @@ public class GroupCreateActivity extends AppCompatActivity {
             }
         });
     }
+
+
+
+    private void showCourseMenu(View view)
+    {
+        PopupMenu popupMenu = new PopupMenu(this, view);
+        selectedUsers.clear();
+
+        // Populate the menu with hard-coded courses
+        for (Course course : availableCourses) {
+            popupMenu.getMenu().add(course.getCourseName());
+        }
+
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                String selectedCourseName = item.getTitle().toString();
+
+                // Find the selected course object based on course name
+                for (Course course : availableCourses) {
+                    if (course.getCourseName().equals(selectedCourseName)) {
+                        selectedCourse = course;
+                        break;
+                    }
+                }
+
+                Toast.makeText(GroupCreateActivity.this, "Selected: " + selectedCourseName, Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        });
+
+        popupMenu.show();
+    }
+
+
+
+
+
+
+
+
 
 
 

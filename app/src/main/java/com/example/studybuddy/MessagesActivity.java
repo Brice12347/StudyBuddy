@@ -213,7 +213,9 @@ public class MessagesActivity extends AppCompatActivity {
             }
         });
     }
-//
+
+
+
     private String extractFileNameFromMessage(String message) {
         int startIndex = message.indexOf("File - ") + 7;
         int endIndex = message.indexOf(" [Click to download]");
@@ -224,10 +226,11 @@ public class MessagesActivity extends AppCompatActivity {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(browserIntent);
     }
+    //
 //
 //
-//
-    private void downloadFile(String fileName, String url) {
+    private void downloadFile(String fileName, String url)
+    {
         DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
         Uri uri = Uri.parse(url);
         DownloadManager.Request request = new DownloadManager.Request(uri);
@@ -237,14 +240,16 @@ public class MessagesActivity extends AppCompatActivity {
         Toast.makeText(this, "Download started...", Toast.LENGTH_SHORT).show();
     }
 
-    //
-    private void openFileChooser() {
+
+    private void openFileChooser()
+    {
         Intent intent = new Intent();
         intent.setType("*/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         fileChooserLauncher.launch(Intent.createChooser(intent, "Select File"));
     }
-//
+
+
     private final ActivityResultLauncher<Intent> fileChooserLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
@@ -255,9 +260,11 @@ public class MessagesActivity extends AppCompatActivity {
                     Toast.makeText(MessagesActivity.this, "No file selected", Toast.LENGTH_SHORT).show();
                 }
             });
-//
-    private void uploadFile() {
-        if (fileUri != null) {
+
+    private void uploadFile()
+    {
+        if (fileUri != null)
+        {
             String fileName = System.currentTimeMillis() + "_" + getFileName(fileUri);
             StorageReference fileRef = storageReference.child("Courses/" + courseName + "/Groups/" + groupId +"/messages");
 
@@ -268,8 +275,11 @@ public class MessagesActivity extends AppCompatActivity {
                     Toast.makeText(MessagesActivity.this, "File upload failed: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         }
     }
-//
-    private void sendMessageWithFile(String fileUrl, String fileName) {
+
+
+
+    private void sendMessageWithFile(String fileUrl, String fileName)
+    {
         String time = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
         Map<String, Object> newMessage = new HashMap<>();
         newMessage.put("fileUrl", fileUrl);
@@ -282,50 +292,72 @@ public class MessagesActivity extends AppCompatActivity {
 
         messagesRef.push().setValue(newMessage);
     }
-//
-    private String getFileName(Uri uri) {
+
+    private String getFileName(Uri uri)
+    {
         String result = null;
-        if (uri.getScheme().equals("content")) {
-            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
-                if (cursor != null && cursor.moveToFirst()) {
+        if (uri.getScheme().equals("content"))
+        {
+            try (Cursor cursor = getContentResolver().query(uri, null, null, null, null))
+            {
+                if (cursor != null && cursor.moveToFirst())
+                {
                     int nameIndex = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
-                    if (nameIndex >= 0) {
+
+                    if (nameIndex >= 0)
+                    {
                         result = cursor.getString(nameIndex);
                     }
                 }
             }
         }
-        if (result == null) {
+        if (result == null)
+        {
             result = uri.getLastPathSegment();
         }
         return result;
     }
-//
-    private String generateChatId(String user1, String user2) {
-        // Sort usernames to ensure a consistent chat ID regardless of who initiated the chat
+
+
+
+
+
+
+
+    private String generateChatId(String user1, String user2)
+    {
+        // usernames sorted to ensure a consistent chat ID regardless of who initiated the chat
         return (user1.compareTo(user2) < 0) ? user1 + "_" + user2 : user2 + "_" + user1;
     }
-//
-    private void loadMessages() {
-        messagesRef.addChildEventListener(new ChildEventListener() {
+
+
+
+    private void loadMessages()
+    {
+        messagesRef.addChildEventListener(new ChildEventListener()
+        {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                // Check if the message has file-specific fields
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName)
+            {
+                    // check if the message has file-specific fields
                 String fileName = snapshot.child("fileName").getValue(String.class);
                 String fileUrl = snapshot.child("fileUrl").getValue(String.class);
                 String senderId = snapshot.child("senderId").getValue(String.class);
                 String time = snapshot.child("time").getValue(String.class);
                 String text = snapshot.child("text").getValue(String.class);
 
-                if (fileName != null && fileUrl != null && senderId != null && time != null) {
-                    // It's a file message
+                if (fileName != null && fileUrl != null && senderId != null && time != null)
+                {
+                    //for uploading files
                     String message = "File - " + fileName + " [Click to download]";
 
                     messagesList.add(message);
 
                     fileUrls.put(fileName, fileUrl); // Store file name and URL for downloads
-                } else if (text != null && senderId != null && time != null) {
-                    // It's a regular text message
+                }
+                else if (text != null && senderId != null && time != null)
+                {
+                    // for regular messages
                     String message = senderId + " (" + time + "): " + text;
                     messagesList.add(message);
                 }
@@ -347,25 +379,31 @@ public class MessagesActivity extends AppCompatActivity {
         });
     }
 
-    private void sendMessage() {
+
+    private void sendMessage()
+    {
         String messageText = ed.getText().toString().trim();
-        if (!messageText.isEmpty()) {
+
+        if (!messageText.isEmpty())
+        {
             String time = new SimpleDateFormat("hh:mm a", Locale.getDefault()).format(new Date());
             Map<String, Object> newMessage = new HashMap<>();
             newMessage.put("text", messageText);
             newMessage.put("senderId", username);
             newMessage.put("time", time);
 
-            // Push the new message to Firebase
+            // push  new message to Firebase database
             messagesRef.push().setValue(newMessage);
 
-            // Clear the input field
+            // clear input field
             ed.setText("");
-        } else {
+        }
+
+        else
+        {
             Toast.makeText(MessagesActivity.this, "Enter a message", Toast.LENGTH_SHORT).show();
         }
     }
-//
 
 
 

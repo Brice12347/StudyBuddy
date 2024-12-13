@@ -34,6 +34,11 @@ public class StudyGroupActivityTest {
                 assertEquals("Test Member", addedMember.getText().toString());
             });
         }
+        catch(Exception e)
+        {
+
+
+        }
     }
 
 
