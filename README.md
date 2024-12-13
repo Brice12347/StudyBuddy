@@ -1,3 +1,5 @@
+Welcome to StudyBuddy!!
+
 This is an Android app designed to give users the ability to study, learn, and interact
 with students from their school. After creating an account, users can select which courses
 they are currently enrolled in and they can create study groups for those courses. Within
@@ -16,4 +18,4 @@ a feature where users can send and view+download files directly from their group
 and private messages, we also made some small functionality changes and we improved the 
 UI design! We hope you enjoy these changes!
 
-Team Oreo
+- Team Oreo
